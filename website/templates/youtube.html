@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}YouTube{% endblock %}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+</head>
+
+{% block content %}
+<h1>Please search for a video using the keyboard!</h1>
+<div class="container">
+    <br>
+    <h1>
+        Youtube
+    </h1>
+    <br>
+    <form id="form">
+        <div class="form-group">
+            <input type="text" class="form-control" id="search">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-danger" value="Search">
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="videos">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='youtube.js') }}"></script>
+
+{% endblock %}
