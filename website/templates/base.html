@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+
 
 
     <script src="https://kit.fontawesome.com/39de285129.js" crossorigin="anonymous"></script>
@@ -36,6 +36,8 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <title>{% block title %}Home{% endblock %}</title>
 </head>
 
@@ -44,7 +46,7 @@
     <header class="header" id="header">
         <p class="logo"><i class="fas fa-hamburger"></i>HeadMouseWeb</p>
         <div>
-            <img src="{{ url_for('views.video') }}" width="100" height="100">
+            <!-- <img src="{{ url_for('views.video') }}" width="100" height="100"> -->
         </div>
         <nav class="navbar">
             {% if user.is_authenticated %}
@@ -59,7 +61,7 @@
         <div id="menu-btn" class="fa-solid fa-bars fa-2x">
         </div>
     </header>
-    
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
@@ -84,8 +86,12 @@
 
     <div class="container">
         {% block content %}
+
         {% endblock %}
+
     </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='base.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='keyboard.js') }}"></script>
 </body>
 
 </html>
