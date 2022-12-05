@@ -2,15 +2,21 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 db = SQLAlchemy()
-DB_NAME = "database.db"
+DB_NAME = os.getenv('DB_NAME')
+LOCALHOST_PASS = os.getenv('LOCALHOST_PASS')
+LOCALHOST_USER = os.getenv('LOCALHOST_USER')
 
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'gs76ru3hj23fh832ejk2'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{LOCALHOST_USER}:{LOCALHOST_PASS}@localhost/{DB_NAME}'
     db.init_app(app)
 
     from .views import views
