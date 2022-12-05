@@ -11,11 +11,12 @@ db = SQLAlchemy()
 DB_NAME = os.getenv('DB_NAME')
 LOCALHOST_PASS = os.getenv('LOCALHOST_PASS')
 LOCALHOST_USER = os.getenv('LOCALHOST_USER')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'gs76ru3hj23fh832ejk2'
+    app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{LOCALHOST_USER}:{LOCALHOST_PASS}@localhost/{DB_NAME}'
     db.init_app(app)
 
