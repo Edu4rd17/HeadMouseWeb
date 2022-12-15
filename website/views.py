@@ -72,3 +72,7 @@ def home():
 @login_required
 def youtube():
     return render_template("youtube.html", user=current_user)
+
+@ views.route('/about')
+def about():
+    return render_template("about.html", user=current_user)
