@@ -61,7 +61,9 @@ def index():
     return render_template("index.html", user=current_user)
 
 
+# Fix so that we cant access this page if we are not logged in as admin
 @ views.route('/video')
+@ login_required
 def video():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -81,3 +83,9 @@ def youtube():
 @ views.route('/about')
 def about():
     return render_template("about.html", user=current_user)
+
+
+@ views.route('/userProfile')
+@ login_required
+def userProfile():
+    return render_template("userProfile.html", user=current_user)

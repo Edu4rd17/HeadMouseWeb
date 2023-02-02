@@ -90,6 +90,10 @@ header #menu-btn:hover {
     margin: 20px;
     text-align: center;
   }
+
+  header .logo {
+    font-size: 25px;
+  }
 }
 
 /* end navbar css */

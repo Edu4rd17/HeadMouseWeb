@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  var YT_API_KEY= ""
   var video = "";
 
   $("#form").submit(function (event) {
