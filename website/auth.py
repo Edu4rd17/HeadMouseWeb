@@ -3,6 +3,7 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_mail import Message
 
 
 auth = Blueprint('auth', __name__)
@@ -23,7 +24,7 @@ def login():
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
-            flash('Email does not exist.', category='error')
+            flash('This account does not exist.', category='error')
     return render_template("login.html", user=current_user)
 
 
@@ -32,6 +33,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('views.index'))
+
+
+def send_welcome_email(user):
+    token = user.get_reset_token()
+    msg = Message('Registered Successfully',
+                  sender='noreply@headmouseweb.com', recipients=[user.email])
+    msg.body = f'''Welcome to Headmouse Web, {user.firstName}!
+
+ You have successfully registered with your account. You can now log in to your account using your credentials.
+'''
+    from . import mail
+    mail.send(msg)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -65,7 +78,74 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
+            send_welcome_email(new_user)
             flash('Account created!', category='success')
 
             return redirect(url_for('views.home'))
     return render_template("register.html", user=current_user)
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request',
+                  sender='noreply@headmouseweb.com', recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('auth.resetPassword', token=token, _external=True)}
+
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
+    from . import mail
+    mail.send(msg)
+
+
+@auth.route('/requestResetPassword', methods=['GET', 'POST'])
+def requestResetPassword():
+    if current_user.is_authenticated:
+        return redirect(url_for('views.home'))
+    else:
+        if request.method == 'POST':
+            email = request.form.get('email')
+
+            user = User.query.filter_by(email=email).first()
+            if user:
+                # send email with reset password link
+                send_reset_email(user)
+                flash('Email sent with instructions!', category='success')
+                return redirect(url_for('auth.login'))
+            else:
+                flash('Email does not exist.', category='error')
+        return render_template("requestPassword.html", user=current_user)
+
+
+@auth.route('/resetPassword/<token>', methods=['GET', 'POST'])
+def resetPassword(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('views.home'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', category='error')
+        return redirect(url_for('auth.requestResetPassword'))
+    else:
+        if request.method == 'POST':
+            password = request.form.get('password')
+            confirm_password = request.form.get('confirm_password')
+            if user:
+                if password != confirm_password:
+                    flash('Passwords don\'t match.', category='error')
+
+                elif len(password) == 0 or len(confirm_password) == 0:
+                    flash('Please enter a password.',
+                          category='error')
+
+                elif len(password) < 7:
+                    flash('Password must be at least 7 characters.',
+                          category='error')
+
+                else:
+                    hashed_password = generate_password_hash(
+                        password, method='sha256')
+                    user.password = hashed_password
+                    db.session.commit()
+                    flash('Your password has been updated!', category='success')
+                    return redirect(url_for('auth.login'))
+        return render_template("resetPassword.html", user=current_user)

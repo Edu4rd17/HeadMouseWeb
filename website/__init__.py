@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from flask_mail import Mail
 from dotenv import load_dotenv
 import os
 
@@ -13,12 +14,16 @@ LOCALHOST_PASS = os.getenv('LOCALHOST_PASS')
 LOCALHOST_USER = os.getenv('LOCALHOST_USER')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{LOCALHOST_USER}:{LOCALHOST_PASS}@localhost/{DB_NAME}'
     db.init_app(app)
+    app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER')
+    app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASS')
 
     from .views import views
     from .auth import auth
@@ -46,3 +51,6 @@ def create_database(app):
         with app.app_context():
             db.create_all()
         print('Created Database!')
+
+
+mail = Mail(create_app())
