@@ -5,3 +5,13 @@ menu.onclick = () => {
   menu.classList.toggle("fa-times");
   navbar.classList.toggle("active");
 };
+
+function scrollDown() {
+  window.scrollBy(0, 200);
+}
+
+
+function scrollUp() {
+  window.scrollBy(0, -200);
+}
+
