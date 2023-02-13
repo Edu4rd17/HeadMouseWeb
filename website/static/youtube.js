@@ -68,7 +68,7 @@ $(document).ready(function () {
 });
 
 // $(document).ready(function () {
-//   var YT_API_KEY = "AIzaSyAsPHFeYLAiHxFm4-tgoLoaM-Fjy_yg3ws";
+//   var YT_API_KEY = "";
 //   var video = "";
 
 //   $("#form").submit(function (event) {
