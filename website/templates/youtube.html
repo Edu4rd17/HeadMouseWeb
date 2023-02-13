@@ -1,20 +1,23 @@
-{% extends "base.html" %} {% block title %}YouTube{% endblock %}
+{% extends "base.html" %} {% block title %}YouTube{% endblock %} {% block
+content %}
 
-<head>
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-    crossorigin="anonymous"
-  />
-</head>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+  integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+  crossorigin="anonymous"
+/>
 
-{% block content %}
-<h1>Please search for a video using the keyboard!</h1>
-<div class="container">
-  <br />
-  <h1>Youtube</h1>
-  <br />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='youtube.css') }}"
+/>
+
+<div class="page-container">
+  <header class="youtube-header">
+    <img src="../static/images/youtubeLogo.png" alt="" class="yt-logo" />
+  </header>
   <form id="form">
     <div class="form-group">
       <input type="text" class="form-control use-keyboard-input" id="search" />
@@ -23,13 +26,13 @@
       <input type="submit" class="btn btn-danger" value="Search" />
     </div>
   </form>
-
-  <div class="row">
-    <div class="col-md-12">
-      <div id="videos"></div>
-    </div>
-  </div>
+  <button onclick="startVideo()">Start</button>
+  <button onclick="pauseVideo()">Stop</button>
+  <section id="video"></section>
+  <main></main>
 </div>
+
+<!-- <script src="https://www.youtube.com/iframe_api"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
   type="text/javascript"

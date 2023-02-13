@@ -4,12 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='base.css') }}"
-    />
-
     <script
       src="https://kit.fontawesome.com/39de285129.js"
       crossorigin="anonymous"
@@ -59,6 +53,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='base.css') }}"
+    />
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
@@ -105,9 +104,8 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    {% endif %} {% endfor %} {% endif %} {% endwith %}
-
-    <div class="container">{% block content %} {% endblock %}</div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %} {% block content %} {%
+    endblock %}
 
     <!-- <div class="video-container">
       <img src="{{ url_for('views.video') }}" width="200" height="200" />

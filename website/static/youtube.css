@@ -1,0 +1,74 @@
+@mixin font-base {
+  padding: 0;
+  margin: 0;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.video-title {
+  @include font-base;
+}
+
+.video-description {
+  @include font-base;
+  color: grey;
+  font-size: 0.9rem;
+}
+
+body {
+  background-color: #eee;
+}
+
+.page-container {
+  width: 900px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+section {
+  position: fixed;
+  text-align: center;
+  width: 900px;
+  background-color: #fff;
+}
+
+.youtube-header{
+    text-align: center;
+    width: 900px;
+    background-color: #fff;
+}
+
+section {
+  top: 250px;
+}
+
+.yt-logo {
+  width: 80px;
+  padding: 5px;
+}
+
+main {
+  padding: 370px 18px 10px;
+}
+
+article {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+article:hover {
+  border: 2px solid #ff9999;
+}
+
+.thumb {
+  height: 70px;
+  border-radius: 4px;
+}
+
+.details {
+  padding: 8px 22px;
+}
