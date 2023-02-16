@@ -26,8 +26,15 @@ content %}
       <input type="submit" class="btn btn-danger" value="Search" />
     </div>
   </form>
-  <button onclick="startVideo()">Start</button>
-  <button onclick="pauseVideo()">Stop</button>
+  <button id="rwnd" disabled>Rewind 10 sec</button>
+  <button id="fwrd" disabled>Forward 10 sec</button>
+  <button id="pause">Pause Video</button>
+  <button id="play">Play Video</button>
+  <button id="mute">Mute Video</button>
+  <button id="unMute">Unmute Video</button>
+  <button id="volumeUp">Volume Up</button>
+  <button id="volumeDown">Volume Down</button>
+  <!-- <button id="playNext">Next Video</button> -->
   <section id="video"></section>
   <main></main>
 </div>

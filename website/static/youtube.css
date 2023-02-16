@@ -26,7 +26,7 @@ body {
 }
 
 section {
-  position: fixed;
+  /* position: fixed; */
   text-align: center;
   width: 900px;
   background-color: #fff;
@@ -48,7 +48,8 @@ section {
 }
 
 main {
-  padding: 370px 18px 10px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 article {

@@ -25,7 +25,7 @@ $(document).ready(function () {
         "&q=" +
         search,
       function (data) {
-        // console.log(data);
+        console.log(data);
         var id = data.items[0].id.videoId;
         mainVideo(id);
         resultsLoop(data);
@@ -33,11 +33,11 @@ $(document).ready(function () {
     );
   }
 
-  function mainVideo(id) {
-    $("#video").html(
-      `<iframe height="400" width="900" src="http://www.youtube.com/embed/${id}?autoplay=0&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe>`
-    );
-  }
+  // function mainVideo(id) {
+  //   $("#video").html(
+  //     `<iframe height="400" width="900" src="http://www.youtube.com/embed/${id}?autoplay=0&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe>`
+  //   );
+  // }
 
   function resultsLoop(data) {
     $.each(data.items, function (i, item) {
@@ -57,16 +57,134 @@ $(document).ready(function () {
     `);
     });
   }
+
   $("main").on("click", "article", function () {
     var id = $(this).attr("data-key");
+    console.log(id);
+    // alert(id);
+    console.log(mainVideo(id));
     mainVideo(id);
   });
-  function pauseVideo() {
-    console.log('stopVideo');
-    player.stopVideo();
-}
 });
 
+var tag = document.createElement("script");
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+function mainVideo(id) {
+  player = new YT.Player("video", {
+    height: "400",
+    width: "900",
+    videoId: id,
+    events: {
+      onStateChange: onPlayerStateChange,
+    },
+  });
+}
+
+function onPlayerStateChange(event) {
+  if (player.getPlayerState() === 1 || player.getPlayerState() === 2) {
+    //forward the video by 10 seconds
+    $("#fwrd").prop("disabled", false);
+    $("#fwrd").click(function () {
+      forwardTenSec();
+    });
+
+    //rewind the video by 10 seconds
+    $("#rwnd").prop("disabled", false);
+    $("#rwnd").click(function () {
+      rewindTenSec();
+    });
+
+    //stop the video
+    // $("#stop").prop("disabled", false);
+    $("#pause").click(function () {
+      pauseVideo();
+    });
+
+    //play the video
+    // $("#play").prop("disabled", false);
+    $("#play").click(function () {
+      playVideo();
+    });
+
+    //play the next video
+    // $("#playNext").click(function () {
+    //   playNextVideo();
+    // });
+
+    //mute the video
+    $("#mute").click(function () {
+      muteVideo();
+    });
+
+    //unmute the video
+    $("#unMute").click(function () {
+      unMuteVideo();
+    });
+
+    //volume up
+    $("#volumeUp").click(function () {
+      volumeUp();
+    });
+
+    //volume down
+    $("#volumeDown").click(function () {
+      volumeDown();
+    });
+  } else {
+    //disable the buttons
+    $("#rwnd").prop("disabled", true);
+    $("#fwrd").prop("disabled", true);
+    // $("#stop").prop("disabled", true);
+    // $("#play").prop("disabled", true);
+  }
+}
+
+function rewindTenSec() {
+  var currentTime = player.getCurrentTime();
+  player.seekTo(currentTime - 10, true);
+  player.playVideo();
+}
+
+function forwardTenSec() {
+  var currentTime = player.getCurrentTime();
+  player.seekTo(currentTime + 10, true);
+  player.playVideo();
+}
+
+function pauseVideo() {
+  player.pauseVideo();
+}
+
+function playVideo() {
+  player.playVideo();
+}
+
+// function playNextVideo() {
+//   player.nextVideo();
+// }
+
+function muteVideo() {
+  player.mute();
+}
+
+function unMuteVideo() {
+  player.unMute();
+}
+
+function volumeUp() {
+  var currVolume = player.getVolume();
+  player.setVolume(currVolume + 10);
+}
+
+function volumeDown() {
+  var currVolume = player.getVolume();
+  player.setVolume(currVolume - 10);
+}
 // $(document).ready(function () {
 //   var YT_API_KEY = "";
 //   var video = "";
