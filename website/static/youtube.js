@@ -79,10 +79,19 @@ function mainVideo(id) {
     height: "400",
     width: "900",
     videoId: id,
+    autoplay: 1,
+    playerVars: {
+      controls: 0,
+    },
     events: {
+      onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
     },
   });
+}
+
+function onPlayerReady(event) {
+  event.target.playVideo();
 }
 
 function onPlayerStateChange(event) {
