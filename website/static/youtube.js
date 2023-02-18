@@ -3,13 +3,13 @@ $(document).ready(function () {
   var URL = "https://www.googleapis.com/youtube/v3/search?key=";
   var maxNumResults = 20;
 
+  // $("#form")[0].reset();
   $("#form").submit(function (event) {
     // Prevent the form from submitting via the browser.
     event.preventDefault();
-
     // Get the search term
     var search = $("#search").val();
-    if (search != " ") {
+    if (document.getElementById("search").value.trim().length > 0) {
       videoSearch(YT_API_KEY, search, maxNumResults);
     } else {
       alert("Please enter a search term");
@@ -61,9 +61,8 @@ $(document).ready(function () {
   $("main").on("click", "article", function () {
     var id = $(this).attr("data-key");
     console.log(id);
-    // alert(id);
-    console.log(mainVideo(id));
-    mainVideo(id);
+    videoDuration(id);
+    playSelectedVideo(id);
   });
 });
 
@@ -76,12 +75,17 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function mainVideo(id) {
   player = new YT.Player("video", {
-    height: "400",
-    width: "900",
+    height: "500",
+    width: "1200",
     videoId: id,
     autoplay: 1,
     playerVars: {
       controls: 0,
+      showinfo: 0,
+      rel: 0,
+      modestbranding: 1,
+      order: "date",
+      // enablejsapi: 1
     },
     events: {
       onReady: onPlayerReady,
@@ -90,8 +94,47 @@ function mainVideo(id) {
   });
 }
 
+function playSelectedVideo(id) {
+  player.loadVideoById(id);
+  // player.playVideo();
+}
+
 function onPlayerReady(event) {
   event.target.playVideo();
+  videoDuration();
+  // liveVideoTime();
+}
+
+// function playNextVideo() {
+//   var seconds;
+//   if (seconds == player.getDuration()) {
+//     player.nextVideo();
+//     player.playVideo();
+//   }
+// }
+
+function liveVideoTime() {
+  var liveVideoTime;
+  liveVideoTime += formatTime(player.getCurrentTime());
+  $("#liveVideoTime").html(`<p>Current Time: ${liveVideoTime}</p>`);
+}
+
+function videoDuration(id) {
+  var videoDuration = 0;
+  videoDuration = formatTime(player.getDuration(id));
+  $("#videoDuration").html(`<p>Video Duration: ${videoDuration}</p>`);
+  // console.log(videoDuration);
+}
+
+function formatTime(time) {
+  time = Math.round(time);
+
+  var minutes = Math.floor(time / 60),
+    seconds = time - minutes * 60;
+
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+
+  return minutes + ":" + seconds;
 }
 
 function onPlayerStateChange(event) {
@@ -109,13 +152,13 @@ function onPlayerStateChange(event) {
     });
 
     //stop the video
-    // $("#stop").prop("disabled", false);
+    $("#pause").prop("disabled", false);
     $("#pause").click(function () {
       pauseVideo();
     });
 
     //play the video
-    // $("#play").prop("disabled", false);
+    $("#play").prop("disabled", false);
     $("#play").click(function () {
       playVideo();
     });
@@ -126,30 +169,59 @@ function onPlayerStateChange(event) {
     // });
 
     //mute the video
+    $("#mute").prop("disabled", false);
     $("#mute").click(function () {
       muteVideo();
     });
 
     //unmute the video
+    $("#unMute").prop("disabled", false);
     $("#unMute").click(function () {
       unMuteVideo();
     });
 
     //volume up
+    $("#volumeUp").prop("disabled", false);
     $("#volumeUp").click(function () {
       volumeUp();
     });
 
     //volume down
+    $("#volumeDown").prop("disabled", false);
     $("#volumeDown").click(function () {
       volumeDown();
+    });
+
+    //slow down the video
+    $("#slowerVideo").prop("disabled", false);
+    $("#slowerVideo").click(function () {
+      slowDownVideo();
+    });
+
+    //speed up the video
+    $("#fasterVideo").prop("disabled", false);
+    $("#fasterVideo").click(function () {
+      speedUpVideo();
+    });
+
+    //normal speed
+    $("#normalSpeed").prop("disabled", false);
+    $("#normalSpeed").click(function () {
+      normalSpeedVideo();
     });
   } else {
     //disable the buttons
     $("#rwnd").prop("disabled", true);
     $("#fwrd").prop("disabled", true);
-    // $("#stop").prop("disabled", true);
-    // $("#play").prop("disabled", true);
+    $("#pause").prop("disabled", true);
+    $("#play").prop("disabled", true);
+    $("#mute").prop("disabled", true);
+    $("#unMute").prop("disabled", true);
+    $("#volumeUp").prop("disabled", true);
+    $("#volumeDown").prop("disabled", true);
+    $("#slowerVideo").prop("disabled", true);
+    $("#fasterVideo").prop("disabled", true);
+    $("#normalSpeed").prop("disabled", true);
   }
 }
 
@@ -194,6 +266,22 @@ function volumeDown() {
   var currVolume = player.getVolume();
   player.setVolume(currVolume - 10);
 }
+
+function slowDownVideo() {
+  var currSpeed = player.getPlaybackRate();
+  player.setPlaybackRate(currSpeed - 0.5);
+}
+
+function speedUpVideo() {
+  var currSpeed = player.getPlaybackRate();
+  player.setPlaybackRate(currSpeed + 0.5);
+}
+
+function normalSpeedVideo() {
+  var currSpeed = player.getPlaybackRate();
+  player.setPlaybackRate((currSpeed = 1));
+}
+
 // $(document).ready(function () {
 //   var YT_API_KEY = "";
 //   var video = "";

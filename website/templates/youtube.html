@@ -20,7 +20,7 @@ content %}
   </header>
   <form id="form">
     <div class="form-group">
-      <input type="text" class="form-control use-keyboard-input" id="search" />
+      <input type="text" class="form-control use-keyboard-input" id="search" required/>
     </div>
     <div class="form-group">
       <input type="submit" class="btn btn-danger" value="Search" />
@@ -28,19 +28,28 @@ content %}
   </form>
   <button id="rwnd" disabled>Rewind 10 sec</button>
   <button id="fwrd" disabled>Forward 10 sec</button>
-  <button id="pause">Pause Video</button>
-  <button id="play">Play Video</button>
-  <button id="mute">Mute Video</button>
-  <button id="unMute">Unmute Video</button>
-  <button id="volumeUp">Volume Up</button>
-  <button id="volumeDown">Volume Down</button>
+  <button id="pause" disabled>Pause Video</button>
+  <button id="play" disabled>Play Video</button>
+  <button id="mute" disabled>Mute Video</button>
+  <button id="unMute" disabled>Unmute Video</button>
+  <button id="volumeUp" disabled>Volume Up</button>
+  <button id="volumeDown" disabled>Volume Down</button>
+  <button id="slowerVideo" disabled>Slow Down</button>
+  <button id="normalSpeed" disabled>Normal Speed</button>
+  <button id="fasterVideo" disabled>Speed Up</button>
   <!-- <button id="playNext">Next Video</button> -->
-  <section id="video"></section>
+  <section id="video" class="ytVideo"></section>
+  <div id="videoDuration"></div>
+  <div id="liveVideoTime"></div>
   <main></main>
 </div>
 
 <!-- <script src="https://www.youtube.com/iframe_api"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- <script
+  src="https://code.jquery.com/jquery-3.6.3.js"
+  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+  crossorigin="anonymous"></script> -->
 <script
   type="text/javascript"
   src="{{ url_for('static', filename='youtube.js') }}"

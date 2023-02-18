@@ -20,7 +20,7 @@ body {
 }
 
 .page-container {
-  width: 900px;
+  width: 1200px;
   background-color: #fff;
   margin: 0 auto;
 }
@@ -28,14 +28,14 @@ body {
 section {
   /* position: fixed; */
   text-align: center;
-  width: 900px;
+  width: 1200px;
   background-color: #fff;
 }
 
-.youtube-header{
-    text-align: center;
-    width: 900px;
-    background-color: #fff;
+.youtube-header {
+  text-align: center;
+  width: 1200px;
+  background-color: #fff;
 }
 
 section {
@@ -50,6 +50,11 @@ section {
 main {
   padding-top: 50px;
   padding-bottom: 50px;
+  /* pointer-events: none; */
+}
+
+.ytVideo {
+  pointer-events: none;
 }
 
 article {
