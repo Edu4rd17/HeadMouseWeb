@@ -20,7 +20,12 @@ content %}
   </header>
   <form id="form">
     <div class="form-group">
-      <input type="text" class="form-control use-keyboard-input" id="search" required/>
+      <input
+        type="text"
+        class="form-control use-keyboard-input"
+        id="search"
+        required
+      />
     </div>
     <div class="form-group">
       <input type="submit" class="btn btn-danger" value="Search" />
@@ -38,18 +43,32 @@ content %}
   <button id="normalSpeed" disabled>Normal Speed</button>
   <button id="fasterVideo" disabled>Speed Up</button>
   <!-- <button id="playNext">Next Video</button> -->
-  <section id="video" class="ytVideo"></section>
-  <div id="videoDuration"></div>
-  <div id="liveVideoTime"></div>
-  <main></main>
+  <!-- <iframe
+    id="existing-iframe-example"
+    width="1200"
+    height="900"
+    src=""
+    frameborder="0" allow="autoplay; encrypted-media"
+  ></iframe> -->
+  <iframe class="ytVideo" id="existing-iframe-example"
+        width="640" height="360"
+        src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&showinfo=0&controls=0&enablejsapi=1&origin:http://127.0.0.1:5000"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        style="border: solid 4px #37474F"
+></iframe>
+  <!-- <div id="videoDuration"></div>
+  <div id="liveVideoTime"></div> -->
+  <main class="yt"></main>
 </div>
 
-<!-- <script src="https://www.youtube.com/iframe_api"></script> -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- <script
+<script
   src="https://code.jquery.com/jquery-3.6.3.js"
   integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-  crossorigin="anonymous"></script> -->
+  crossorigin="anonymous"
+></script>
 <script
   type="text/javascript"
   src="{{ url_for('static', filename='youtube.js') }}"

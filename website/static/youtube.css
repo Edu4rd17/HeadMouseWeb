@@ -25,7 +25,7 @@ body {
   margin: 0 auto;
 }
 
-section {
+section, .ytVideo {
   /* position: fixed; */
   text-align: center;
   width: 1200px;
@@ -38,7 +38,7 @@ section {
   background-color: #fff;
 }
 
-section {
+section, .ytVideo {
   top: 250px;
 }
 
