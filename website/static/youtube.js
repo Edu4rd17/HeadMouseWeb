@@ -3,30 +3,10 @@ var tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
 var player;
 function onYouTubeIframeAPIReady() {
-  // player = ("player", {
-  //   height: "500",
-  //   width: "1200",
-  //   videoId: `${id}`,
-  //   host: "https://www.youtube.com",
-  //   autoplay: 1,
-  //   playerVars: {
-  //     controls: 0,
-  //     showinfo: 0,
-  //     rel: 0,
-  //     modestbranding: 1,
-  //     order: "date",
-  //     enablejsapi: 1,
-  //     origin: "http://127.0.0.1:5000",
-  //   },
-  //   events: {
-  //     onReady: onPlayerReady,
-  //     onStateChange: onPlayerStateChange,
-  //   },
-  // });
-
-  player = new YT.Player("existing-iframe-example", {
+  player = new YT.Player("existing-iframe", {
     events: {
       onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
@@ -35,69 +15,12 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  document.getElementById("existing-iframe-example").style.borderColor =
-    "#FF6D00";
   event.target.playVideo();
-  // videoDuration();
+  videoDuration();
   // liveVideoTime();
 }
 
-function changeBorderColor(playerStatus) {
-  var color;
-  if (playerStatus == -1) {
-    color = "#37474F"; // unstarted = gray
-  } else if (playerStatus == 0) {
-    color = "#FFFF00"; // ended = yellow
-  } else if (playerStatus == 1) {
-    color = "#33691E"; // playing = green
-  } else if (playerStatus == 2) {
-    color = "#DD2C00"; // paused = red
-  } else if (playerStatus == 3) {
-    color = "#AA00FF"; // buffering = purple
-  } else if (playerStatus == 5) {
-    color = "#FF6DOO"; // video cued = orange
-  }
-  if (color) {
-    document.getElementById("existing-iframe-example").style.borderColor =
-      color;
-  }
-}
-
-
-function playSelectedVideo(id) {
-  player.loadVideoById(id);
-
-  return false;
-  // player.playVideo();
-}
-
-function liveVideoTime() {
-  var liveVideoTime;
-  liveVideoTime += formatTime(player.getCurrentTime());
-  $("#liveVideoTime").html(`<p>Current Time: ${liveVideoTime}</p>`);
-}
-
-function videoDuration(id) {
-  var videoDuration;
-  videoDuration = formatTime(player.getDuration(id));
-  $("#videoDuration").html(`<p>Video Duration: ${videoDuration}</p>`);
-  console.log(videoDuration);
-}
-
-function formatTime(time) {
-  time = Math.round(time);
-
-  var minutes = Math.floor(time / 60),
-    seconds = time - minutes * 60;
-
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  return minutes + ":" + seconds;
-}
-
 function onPlayerStateChange(event) {
-  changeBorderColor(event.data);
-
   if (player.getPlayerState() === 1 || player.getPlayerState() === 2) {
     //forward the video by 10 seconds
     $("#fwrd").prop("disabled", false);
@@ -185,94 +108,136 @@ function onPlayerStateChange(event) {
   }
 }
 
+//play the selected video from the playlist
+// function playSelectedVideo(id) {
+//   player.loadVideoById(id);
+//   return false;
+// }
+
+//get the live video time
+// function liveVideoTime() {
+//   var liveVideoTime;
+//   liveVideoTime += formatTime(player.getCurrentTime());
+//   $("#liveVideoTime").html(`<p>Current Time: ${liveVideoTime}</p>`);
+// }
+
+//get the video duration
+function videoDuration(id) {
+  var videoDuration;
+  videoDuration = formatTime(player.getDuration(id));
+  $("#videoDuration").html(`<p>Video Duration: ${videoDuration}</p>`);
+  // console.log(videoDuration);
+}
+
+//rewind the video by 10 seconds
 function rewindTenSec() {
   var currentTime = player.getCurrentTime();
   player.seekTo(currentTime - 10, true);
   player.playVideo();
 }
 
+//forward the video by 10 seconds
 function forwardTenSec() {
   var currentTime = player.getCurrentTime();
   player.seekTo(currentTime + 10, true);
   player.playVideo();
 }
 
+//stop the video
 function pauseVideo() {
   player.pauseVideo();
-  console.log("paused video");
-  // alert("paused video");
 }
 
+//play the video
 function playVideo() {
   player.playVideo();
 }
 
-// function playNextVideo() {
-//   player.nextVideo();
+// function playNextVideo(data) {
+//   for (var i = 0; i < data.length; i++) {
+//     player.nextVideo(i);
+//   }
 // }
 
+//mute the video
 function muteVideo() {
   player.mute();
 }
 
+//unmute the video
 function unMuteVideo() {
   player.unMute();
 }
 
+//volume up
 function volumeUp() {
   var currVolume = player.getVolume();
   player.setVolume(currVolume + 10);
 }
 
+//volume down
 function volumeDown() {
   var currVolume = player.getVolume();
   player.setVolume(currVolume - 10);
 }
 
+//slow down the video
 function slowDownVideo() {
   var currSpeed = player.getPlaybackRate();
-  player.setPlaybackRate(currSpeed - 0.5);
+  player.setPlaybackRate(currSpeed - 0.25);
 }
 
+//speed up the video
 function speedUpVideo() {
   var currSpeed = player.getPlaybackRate();
-  player.setPlaybackRate(currSpeed + 0.5);
+  player.setPlaybackRate(currSpeed + 0.25);
 }
 
+//normal speed
 function normalSpeedVideo() {
   var currSpeed = player.getPlaybackRate();
   player.setPlaybackRate((currSpeed = 1));
 }
 
-// function mainVideo(id) {
-//   $("#playerr").html(
-//     `<iframe height="500" width="1200" id="player" src="https://www.youtube.com/embed/${id}?autoplay=1&showinfo=0&controls=0&enablejsapi=1" allow="autoplay" frameborder="0" allowfullscreen></iframe>`
-//   );
-// }
+//format the time
+function formatTime(time) {
+  time = Math.round(time);
+  var minutes = Math.floor(time / 60),
+    seconds = time - minutes * 60;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
 
+  return minutes + ":" + seconds;
+}
+
+//send the src of the video to the iframe
 function mainVideo(id) {
   document.getElementById(
-    "existing-iframe-example"
+    "existing-iframe"
   ).src = `https://www.youtube.com/embed/${id}?autoplay=1&showinfo=0&controls=0&enablejsapi=1&origin:http://127.0.0.1:5000`;
 }
 
 $(document).ready(function () {
+  //vars
   var YT_API_KEY = "";
   var URL = "https://www.googleapis.com/youtube/v3/search?key=";
   var maxNumResults = 20;
 
+  //check if form is submitted
   $("#form").submit(function (event) {
     // Prevent the form from submitting via the browser.
     event.preventDefault();
     // Get the search term
     var search = $("#search").val();
+    //check if search term is empty
     if (document.getElementById("search").value.trim().length > 0) {
+      //call the videoSearch function
       videoSearch(YT_API_KEY, search, maxNumResults);
     } else {
       alert("Please enter a search term");
     }
   });
 
+  //search for videos function takes in the api key, search term and max number of results
   function videoSearch(key, search, maxResults) {
     $.get(
       URL +
@@ -283,30 +248,25 @@ $(document).ready(function () {
         search,
       function (data) {
         console.log(data);
-        //empty data from previous search
-        //empty the main video function
         var id = data.items[0].id.videoId;
-        // alert(player);
-        // alert(id);
-        $("#player").empty();
+        // $("iframe").empty();
         mainVideo(id);
-        // onYouTubeIframeAPIReady();
+        //empty the main div before appending the results
         $("main").empty();
         resultsLoop(data);
-        // videoDuration(id);
+        videoDuration(id);
       }
     );
   }
 
   function resultsLoop(data) {
-    // clear
-
     $.each(data.items, function (i, item) {
       var thumb = item.snippet.thumbnails.medium.url;
       var title = item.snippet.title;
       var description = item.snippet.description.substring(0, 100);
       var vid = item.id.videoId;
 
+      //append the results to the main div
       $("main").append(`
       <article class="item" data-key="${vid}">
         <img src="${thumb}" alt="" class="thumb" />
@@ -319,48 +279,12 @@ $(document).ready(function () {
     });
   }
 
+  //click event for the playlist videos to play the selected video
   $("main").on("click", "article", function () {
     var id = $(this).attr("data-key");
-    console.log(id);
+    // console.log(id);
     // videoDuration(id);
     // playSelectedVideo(id);
     mainVideo(id);
   });
 });
-
-// $(document).ready(function () {
-//   var YT_API_KEY = "";
-//   var video = "";
-
-//   $("#form").submit(function (event) {
-//     // Prevent the form from submitting via the browser.
-//     event.preventDefault();
-
-//     // Get the search term
-//     var search = $("#search").val();
-//     if (search != "") {
-//       videoSearch(YT_API_KEY, search, 17);
-//     } else {
-//       alert("Please enter a search term");
-//     }
-//   });
-
-//   function videoSearch(key, search, maxResults) {
-//     $.get(
-//       "https://www.googleapis.com/youtube/v3/search?key=" +
-//         key +
-//         "&type=video&part=snippet&maxResults=" +
-//         maxResults +
-//         "&q=" +
-//         search,
-//       function (data) {
-//         console.log(data);
-
-//         data.items.forEach((item) => {
-//           video = `<iframe height="315" width="420" src="http://www.youtube.com/embed/${item.id.videoId}" frameborder="0" allowfullscreen></iframe> `;
-//           $("#videos").append(video);
-//         });
-//       }
-//     );
-//   }
-// });
