@@ -16,8 +16,9 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   event.target.playVideo();
+  //set a timer to update the video time every second
   videoDuration();
-  // liveVideoTime();
+  liveVideoTime();
 }
 
 function onPlayerStateChange(event) {
@@ -115,11 +116,17 @@ function onPlayerStateChange(event) {
 // }
 
 //get the live video time
-// function liveVideoTime() {
-//   var liveVideoTime;
-//   liveVideoTime += formatTime(player.getCurrentTime());
-//   $("#liveVideoTime").html(`<p>Current Time: ${liveVideoTime}</p>`);
-// }
+function liveVideoTime(id) {
+  //set a timer to update the video time every second
+  if (player.getCurrentTime(id) != player.getDuration(id)) {
+    setInterval(function () {
+      var liveVideoTime = 0;
+      liveVideoTime += formatTime(player.getCurrentTime(id));
+      $("#liveVideoTime").html(`<p>Current Time: ${liveVideoTime}</p>`);
+      // console.log(liveVideoTime);
+    }, 1000);
+  }
+}
 
 //get the video duration
 function videoDuration(id) {
@@ -255,6 +262,7 @@ $(document).ready(function () {
         $("main").empty();
         resultsLoop(data);
         videoDuration(id);
+        liveVideoTime(id);
       }
     );
   }

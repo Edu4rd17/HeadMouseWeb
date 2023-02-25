@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -14,8 +15,10 @@ LOCALHOST_PASS = os.getenv('LOCALHOST_PASS')
 LOCALHOST_USER = os.getenv('LOCALHOST_USER')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+
 def create_app():
     app = Flask(__name__)
+    CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5000"}})
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{LOCALHOST_USER}:{LOCALHOST_PASS}@localhost/{DB_NAME}'
     db.init_app(app)
