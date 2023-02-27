@@ -1,6 +1,12 @@
 {% extends "base.html" %} {% block title %}User Profile{% endblock %} {% block
 content %}
 
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='userProfile.css') }}"
+/>
+
 <p>First Name: {{user.firstName}}</p>
 <p>Last Name: {{user.lastName}}</p>
 <p>Email address: {{user.email}}</p>
@@ -9,6 +15,37 @@ content %}
 
 <a href="{{ url_for('auth.changePassword') }}">Change Password</a>
 
-
 <a href="{{ url_for('views.userProfileEdit') }}">Edit Details</a>
+
+<button
+  class="delete-account-btn"
+  onclick="document.getElementById('delete-account').style.display='block'"
+>
+  Delete Account
+</button>
+
+<div id="delete-account" class="modal">
+  <form class="modal-content" action="/action_page.php">
+    <div class="container">
+      <h1>Delete Account</h1>
+      <p>Are you sure you want to delete your account?</p>
+
+      <div class="clearfix">
+        <button
+          type="button"
+          onclick="document.getElementById('delete-account').style.display='none'"
+          class="cancelbtn"
+        >
+          Cancel
+        </button>
+        <a href="{{ url_for('views.deleteAccount') }}">Delete Account</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='userProfile.js') }}"
+></script>
 {% endblock %}

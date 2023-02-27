@@ -264,3 +264,14 @@ def userProfileEdit():
 
         return redirect(url_for('views.userProfile'))
     return render_template("userProfileEdit.html", user=current_user)
+
+# remove user account
+
+
+@ views.route('/deleteAccount',  methods=['GET', 'POST'])
+@ login_required
+def deleteAccount():
+    db.session.delete(current_user)
+    db.session.commit()
+    flash('Account Deleted Successfully', category='success')
+    return redirect(url_for('views.index'))

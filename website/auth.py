@@ -20,7 +20,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.index'))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -83,7 +83,7 @@ def register():
             send_welcome_email(new_user)
             flash('Account created!', category='success')
 
-            return redirect(url_for('views.home'))
+            return redirect(url_for('views.index'))
     return render_template("register.html", user=current_user)
 
 
@@ -165,6 +165,7 @@ def password_changed(user):
 
 
 @auth.route('/changePassword', methods=['GET', 'POST'])
+@login_required
 def changePassword():
     if request.method == 'POST':
         currentPassword = request.form.get('currentPassword')

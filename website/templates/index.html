@@ -1,9 +1,12 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+%} {% if user.is_authenticated %}
+<h1>Welcome to Head Mouse Web {{user.firstName}}</h1>
+{% else %}
 <h1>
   Welcome to HeadMouseWeb. Please login or create an account to have full
   access!
 </h1>
+{% endif %}
 
 <p>Look at the horizontal scrollbar to see the effect.</p>
 <p>Look at the horizontal scrollbar to see the effect.</p>

@@ -8,6 +8,27 @@
 
 /* navbar css */
 
+#logo,
+#nav-links,
+#scroll-btns {
+  float: left;
+  /* width: 23%; */
+  padding: 0 10px;
+}
+
+#logo {
+  /* background-color: #a1edcc; */
+}
+#nav-links {
+  /* background-color: #a0e9ed; */
+  width: 43%;
+  display: block;
+  text-align: center;
+}
+#scroll-btns {
+  /* background-color: #f497f1; */
+}
+
 .header {
   position: sticky;
   top: 0;
@@ -178,7 +199,3 @@
 .video-container {
   text-align: center;
 }
-
-/* .scroll-buttons {
-  position: fixed;
-} */
