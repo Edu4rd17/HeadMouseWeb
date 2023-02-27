@@ -222,31 +222,40 @@ def userProfileEdit():
         country = request.form.get('country')
         gender = request.form.get('gender')
 
-        # if email == current_user.email:
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email already exists.', category='error')
-
-        elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
-
-        elif len(firstName) < 2:
+        if len(firstName) < 2:
             flash('First name must be greater than 1 character.',
                   category='error')
 
+            return redirect(url_for('views.userProfileEdit'))
+
         else:
-            if email == current_user.email:
+            if email != current_user.email:
+
+                user = User.query.filter_by(email=email).first()
+                if user:
+                    flash('Email already exists.', category='error')
+
+                    return redirect(url_for('views.userProfileEdit'))
+
+                elif len(email) < 4:
+                    flash('Email must be greater than 3 characters.',
+                          category='error')
+
+                    return redirect(url_for('views.userProfileEdit'))
+
                 current_user.firstName = firstName
                 current_user.lastName = lastName
+                current_user.email = email
                 current_user.country = country
                 current_user.gender = gender
                 db.session.commit()
                 # update_details(updated_user)
                 flash('Details Updated Successfully', category='success')
-            elif email != current_user.email:
+
+            elif email == current_user.email:
+
                 current_user.firstName = firstName
                 current_user.lastName = lastName
-                current_user.email = email
                 current_user.country = country
                 current_user.gender = gender
                 db.session.commit()
