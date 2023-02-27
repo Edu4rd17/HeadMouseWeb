@@ -1,51 +1,95 @@
 {% extends "base.html" %} {% block title %}Register{% endblock %} {% block
 content %}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='register.css') }}"
+/>
+
 <h1>Welcome to HeadMouseWeb Register!</h1>
 <form method="POST">
   <h3 aling="center">Register</h3>
   <div class="form-group">
-    <label for="firstname">First Name</label>
+    <label class="required" for="firstname">First Name</label>
     <input
       type="text"
       name="firstName"
       class="form-control use-keyboard-input"
       id="firstName"
-      placeholder="Firstname"
+      placeholder="First Name"
+      required
     />
   </div>
 
   <div class="form-group">
-    <label for="email">Email address</label>
+    <label class="required" for="lastname">Last Name</label>
+    <input
+      type="text"
+      name="lastName"
+      class="form-control use-keyboard-input"
+      id="lastName"
+      placeholder="Last Name"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label class="required" for="email">Email address</label>
     <input
       type="email"
       name="email"
       class="form-control use-keyboard-input"
       id="email"
       placeholder="Email"
+      required
     />
   </div>
 
   <div class="form-group">
-    <label for="password">Password</label>
+    <label class="required" for="password">Password</label>
     <input
       type="password"
       name="password"
       class="form-control use-keyboard-input"
       id="password"
       placeholder="Password"
+      required
     />
   </div>
 
   <div class="form-group">
-    <label for="password2">Confirm Password</label>
+    <label class="required" for="password2">Confirm Password</label>
     <input
       type="password"
       name="password2"
       class="form-control use-keyboard-input"
       id="password2"
       placeholder="Confirm Password"
+      required
     />
   </div>
+
+  <div class="form-group">
+    <label class="required" for="country">Country</label>
+    <select
+      id="country"
+      name="country"
+      class="form-countries"
+      required
+    ></select>
+  </div>
+
+  <div class="form-group">
+    <label class="required" for="gender">Gender</label>
+    <select name="gender" id="gender" required>
+      <option value="">-Select Gender-</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
   <br />
   <button type="submit" class="btn btn-primary">Register</button>
   <div>
@@ -53,4 +97,8 @@ content %}
   </div>
 </form>
 
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='register.js') }}"
+></script>
 {% endblock %}

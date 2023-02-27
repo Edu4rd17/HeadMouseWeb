@@ -10,11 +10,18 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # this is the user model
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     firstName = db.Column(db.String(150), nullable=False)
+    lastName = db.Column(db.String(150), nullable=False)
+    country = db.Column(db.String(150), nullable=False)
+    gender = db.Column(db.String(150), nullable=False)
+    registrationDate = db.Column(db.DateTime(
+        timezone=True), default=db.func.now())
 
     # this method is used to get a token for the user to reset their password
     def get_reset_token(self, expires_sec=300):

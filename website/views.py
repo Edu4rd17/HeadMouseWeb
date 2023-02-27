@@ -1,8 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, Response
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, current_user
 import cv2
 import mediapipe as mp
 import pyautogui
+from . import db
+from flask_mail import Message
+from .models import User
 
 
 views = Blueprint('views', __name__)
@@ -162,6 +165,7 @@ def gen_frames():  # generate frame by frame from camera
 #                 break
 #     cap.release()
 
+
 @ views.route('/')
 def index():
     return render_template("index.html", user=current_user)
@@ -195,3 +199,59 @@ def about():
 @ login_required
 def userProfile():
     return render_template("userProfile.html", user=current_user)
+
+
+def update_details(user):
+    msg = Message('Account Details Updated',
+                  sender='noreply@headmouseweb.com', recipients=[user.email])
+    msg.body = f'''Hi {user.firstName},
+
+ You have successfully updated your account details. If you did not make this change, please contact us immediately!
+'''
+    from . import mail
+    mail.send(msg)
+
+
+@ views.route('/userProfileEdit',  methods=['GET', 'POST'])
+@ login_required
+def userProfileEdit():
+    if request.method == 'POST':
+        firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
+        email = request.form.get('email')
+        country = request.form.get('country')
+        gender = request.form.get('gender')
+
+        # if email == current_user.email:
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('Email already exists.', category='error')
+
+        elif len(email) < 4:
+            flash('Email must be greater than 3 characters.', category='error')
+
+        elif len(firstName) < 2:
+            flash('First name must be greater than 1 character.',
+                  category='error')
+
+        else:
+            if email == current_user.email:
+                current_user.firstName = firstName
+                current_user.lastName = lastName
+                current_user.country = country
+                current_user.gender = gender
+                db.session.commit()
+                # update_details(updated_user)
+                flash('Details Updated Successfully', category='success')
+            elif email != current_user.email:
+                current_user.firstName = firstName
+                current_user.lastName = lastName
+                current_user.email = email
+                current_user.country = country
+                current_user.gender = gender
+                db.session.commit()
+                # update_details(updated_user)
+                flash('Details Updated Successfully', category='success')
+
+        return redirect(url_for('views.userProfile'))
+    return render_template("userProfileEdit.html", user=current_user)

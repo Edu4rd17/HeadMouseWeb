@@ -36,7 +36,6 @@ def logout():
 
 
 def send_welcome_email(user):
-    token = user.get_reset_token()
     msg = Message('Registered Successfully',
                   sender='noreply@headmouseweb.com', recipients=[user.email])
     msg.body = f'''Welcome to Headmouse Web, {user.firstName}!
@@ -51,9 +50,12 @@ def send_welcome_email(user):
 def register():
     if request.method == 'POST':
         firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
         email = request.form.get('email')
         password = request.form.get('password')
         password2 = request.form.get('password2')
+        country = request.form.get('country')
+        gender = request.form.get('gender')
 
         user = User.query.filter_by(email=email).first()
         if user:
@@ -73,8 +75,7 @@ def register():
 
         else:
             # add user to database
-            new_user = User(email=email, firstName=firstName,
-                            password=generate_password_hash(password, method='sha256'))
+            new_user = User(email=email, firstName=firstName, lastName=lastName, password=generate_password_hash(password, method='sha256'), country=country, gender=gender)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
