@@ -75,7 +75,8 @@ def register():
 
         else:
             # add user to database
-            new_user = User(email=email, firstName=firstName, lastName=lastName, password=generate_password_hash(password, method='sha256'), country=country, gender=gender)
+            new_user = User(email=email, firstName=firstName, lastName=lastName, password=generate_password_hash(
+                password, method='sha256'), country=country, gender=gender)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
@@ -150,3 +151,55 @@ def resetPassword(token):
                     flash('Your password has been updated!', category='success')
                     return redirect(url_for('auth.login'))
         return render_template("resetPassword.html", user=current_user)
+
+
+def password_changed(user):
+    msg = Message('Password Changed',
+                  sender='noreply@headmouseweb.com', recipients=[user.email])
+    msg.body = f'''Hi {user.firstName},
+
+ You have successfully changed your account password. If you did not make this change, please contact us immediately.
+'''
+    from . import mail
+    mail.send(msg)
+
+
+@auth.route('/changePassword', methods=['GET', 'POST'])
+def changePassword():
+    if request.method == 'POST':
+        currentPassword = request.form.get('currentPassword')
+        newPassword = request.form.get('newPassword')
+        confirmNewPassword = request.form.get('confirmNewPassword')
+
+        if check_password_hash(current_user.password, currentPassword):
+            if newPassword != confirmNewPassword:
+                flash('Passwords don\'t match.', category='error')
+
+                return redirect(url_for('auth.changePassword'))
+
+            elif len(newPassword) == 0 or len(confirmNewPassword) == 0:
+                flash('Please enter a password.', category='error')
+
+                return redirect(url_for('auth.changePassword'))
+
+            elif len(newPassword) < 7:
+                flash('Password must be at least 7 characters.', category='error')
+
+                return redirect(url_for('auth.changePassword'))
+
+            else:
+                hashed_password = generate_password_hash(
+                    newPassword, method='sha256')
+                current_user.password = hashed_password
+                db.session.commit()
+                password_changed(current_user)
+                flash('Password changed successfully!', category='success')
+
+                return redirect(url_for('views.userProfile'))
+        else:
+            flash(
+                'Incorrect password, please enter your current account password.', category='error')
+
+            return redirect(url_for('auth.changePassword'))
+
+    return render_template("changePassword.html", user=current_user)

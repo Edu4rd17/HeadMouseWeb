@@ -249,7 +249,7 @@ def userProfileEdit():
                 current_user.country = country
                 current_user.gender = gender
                 db.session.commit()
-                # update_details(updated_user)
+                update_details(current_user)
                 flash('Details Updated Successfully', category='success')
 
             elif email == current_user.email:
@@ -259,7 +259,7 @@ def userProfileEdit():
                 current_user.country = country
                 current_user.gender = gender
                 db.session.commit()
-                # update_details(updated_user)
+                update_details(current_user)
                 flash('Details Updated Successfully', category='success')
 
         return redirect(url_for('views.userProfile'))
