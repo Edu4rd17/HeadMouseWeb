@@ -1,3 +1,5 @@
+const { YT_API_KEY } = require("./env.js");
+
 var tag = document.createElement("script");
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -225,7 +227,7 @@ function mainVideo(id) {
 
 $(document).ready(function () {
   //vars
-  var YT_API_KEY = "";
+  var YT_API_KEY = YT_API_KEY;
   var URL = "https://www.googleapis.com/youtube/v3/search?key=";
   var maxNumResults = 20;
 
