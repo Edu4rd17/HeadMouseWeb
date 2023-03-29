@@ -11,12 +11,38 @@
   </h2>
   <h3>If you wish to click on something simply wink using your left eye!</h3>
   <h4>Try the button below!</h4>
-  <button onclick="showAlert()" style="background-color: red; border-radius: 5px; font-size: 30px; margin-bottom: 5px;">Click Me</button>
+  <button
+    onclick="showAlert()"
+    style="
+      background-color: red;
+      border-radius: 5px;
+      font-size: 30px;
+      margin-bottom: 5px;
+    "
+  >
+    Click Me
+  </button>
+
+  <h3>Counter:</h3>
+  <label id="count"></label><br /><br />
+  <button onclick="counterFunc()">Click</button>
+  <button onclick="resetFunc()">Reset</button>
 </div>
 <script>
   function showAlert() {
     var myText = "Yes!!! You clicked me!";
     alert(myText);
+  }
+
+  count = 0;
+  function counterFunc() {
+    count++;
+    document.getElementById("count").innerHTML = count;
+  }
+
+  function resetFunc() {
+    count = 0;
+    document.getElementById("count").innerHTML = count;
   }
 </script>
 
