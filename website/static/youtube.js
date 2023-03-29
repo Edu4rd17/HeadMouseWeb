@@ -296,3 +296,17 @@ $(document).ready(function () {
     mainVideo(id);
   });
 });
+
+// This is the "Offline page" service worker
+//fixes the service worker navigation preload reques
+self.addEventListener("fetch", (event) => {
+  // Respond to navigation preload requests
+  if (event.request.mode === "navigate" && event.preloadResponse) {
+    event.respondWith(
+      // Wait for the preload response promise to settle
+      event
+        .waitUntil(event.preloadResponse)
+        .then((response) => response || fetch(event.request))
+    );
+  }
+});
