@@ -1,5 +1,5 @@
 import math
-from flask import Blueprint, render_template, request, flash, redirect, url_for, Response
+from flask import Blueprint, render_template, request, flash, redirect, url_for, Response, jsonify
 from flask_login import login_user, login_required, current_user
 import cv2
 import mediapipe as mp
@@ -307,13 +307,15 @@ def auto_click(stop_event):
 def start_click():
     global click_thread
     if click_thread and click_thread.is_alive():
-        return "Auto-clicking already in progress."
+        message = "Auto-clicking already in progress."
     else:
         click_stop_event.clear()  # clear the stop event
         click_thread = threading.Thread(
             target=auto_click, args=(click_stop_event,))
         click_thread.start()
-        return "Auto-clicking started."
+        message = "Auto-clicking started."
+    response = {'message': message}
+    return jsonify(response)
 
 
 @views.route('/stop-click', methods=['POST'])
@@ -323,9 +325,11 @@ def stop_click():
         click_stop_event.set()  # set the stop event
         click_thread.join()  # wait for the thread to finish
         click_thread = None
-        return "Auto-clicking stopped."
+        message = "Auto-clicking stopped."
     else:
-        return "Auto-clicking not in progress."
+        message = "Auto-clicking not in progress."
+    response = {'message': message}
+    return jsonify(response)
 
 
 @ views.route('/')

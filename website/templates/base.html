@@ -44,6 +44,8 @@
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
       crossorigin="anonymous"
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
@@ -110,12 +112,9 @@
   </header>
 
   <body>
-    <h1>Auto-clicker</h1>
-    <form method="post" action="/start-click">
-      <button type="submit">Start clicking</button>
-    </form>
-    <form method="post" action="/stop-click">
-      <button type="submit">Stop clicking</button>
+    <form id="auto-click-form">
+      <input type="button" id="start-click" value="Start Auto-clicking" />
+      <input type="button" id="stop-click" value="Stop Auto-clicking" />
     </form>
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category =='error'
@@ -140,7 +139,29 @@
     <div class="video-container">
       <!-- <img src="{{ url_for('views.video') }}" width="200" height="200" /> -->
     </div>
+    <script>
+      $(document).ready(function () {
+        $("#start-click").click(function () {
+          $.ajax({
+            type: "POST",
+            url: "/start-click",
+            success: function (response) {
+              alert(response.message);
+            },
+          });
+        });
 
+        $("#stop-click").click(function () {
+          $.ajax({
+            type: "POST",
+            url: "/stop-click",
+            success: function (response) {
+              alert(response.message);
+            },
+          });
+        });
+      });
+    </script>
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='base.js') }}"
