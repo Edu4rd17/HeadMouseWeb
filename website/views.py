@@ -297,7 +297,7 @@ click_stop_event = threading.Event()
 def auto_click(stop_event):
     while not stop_event.is_set():
         x, y = pyautogui.position()
-        time.sleep(1)  # wait 1 second before checking again
+        time.sleep(0.5)  # wait 1 second before checking again
         x2, y2 = pyautogui.position()
         if x == x2 and y == y2:  # if mouse position hasn't changed
             pyautogui.click()
@@ -308,13 +308,15 @@ def start_click():
     global click_thread
     if click_thread and click_thread.is_alive():
         message = "Auto-clicking already in progress."
+        category = "error"
     else:
         click_stop_event.clear()  # clear the stop event
         click_thread = threading.Thread(
             target=auto_click, args=(click_stop_event,))
         click_thread.start()
         message = "Auto-clicking started."
-    response = {'message': message}
+        category = "success"
+    response = {'message': message, 'category': category}
     return jsonify(response)
 
 
@@ -326,9 +328,11 @@ def stop_click():
         click_thread.join()  # wait for the thread to finish
         click_thread = None
         message = "Auto-clicking stopped."
+        category = "success"
     else:
         message = "Auto-clicking not in progress."
-    response = {'message': message}
+        category = "error"
+    response = {'message': message, 'category': category}
     return jsonify(response)
 
 

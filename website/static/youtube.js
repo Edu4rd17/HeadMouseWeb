@@ -220,7 +220,7 @@ function formatTime(time) {
 function mainVideo(id) {
   document.getElementById(
     "existing-iframe"
-  ).src = `https://www.youtube.com/embed/${id}?autoplay=1&showinfo=0&controls=0&enablejsapi=1&origin:http://127.0.0.1:5000`;
+  ).src = `https://www.youtube.com/embed/${id}?autoplay=1&showinfo=0&controls=0&enablejsapi=1&origin:www.youtube.com`;
 }
 
 $(document).ready(function () {
@@ -255,14 +255,17 @@ $(document).ready(function () {
         search,
       function (data) {
         console.log(data);
-        var id = data.items[0].id.videoId;
-        // $("iframe").empty();
-        mainVideo(id);
-        //empty the main div before appending the results
-        $("main").empty();
-        resultsLoop(data);
-        videoDuration(id);
-        liveVideoTime(id);
+        if (data.items.length == 0) {
+          alert("No videos found. Please try again.");
+        } else {
+          var id = data.items[0].id.videoId;
+          mainVideo(id);
+          //empty the main div before appending the results
+          $("main").empty();
+          resultsLoop(data);
+          videoDuration(id);
+          liveVideoTime(id);
+        }
       }
     );
   }

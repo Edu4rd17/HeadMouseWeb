@@ -199,3 +199,8 @@
 .video-container {
   text-align: center;
 }
+
+.div-alert-flash {
+  max-width: 600px;
+  margin: auto;
+}

@@ -22,7 +22,7 @@ def login():
                 login_user(user, remember=True)
                 return redirect(url_for('views.index'))
             else:
-                flash('Incorrect password, try again.', category='error')
+                flash('Wrong username or password.', category='error')
         else:
             flash('This account does not exist.', category='error')
     return render_template("login.html", user=current_user)
