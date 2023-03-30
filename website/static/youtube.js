@@ -19,6 +19,11 @@ function onPlayerReady(event) {
   //set a timer to update the video time every second
   videoDuration();
   liveVideoTime();
+  if (event.target && event.target.postMessage) {
+    event.target.postMessage("Hello", "https://www.youtube.com");
+  } else {
+    // console.log("event.target does not have postMessage method");
+  }
 }
 
 function onPlayerStateChange(event) {
@@ -240,7 +245,20 @@ $(document).ready(function () {
       //call the videoSearch function
       videoSearch(YT_API_KEY, search, maxNumResults);
     } else {
-      alert("Please enter a search term");
+      var flashMessage = `
+      <div class="alert alert-danger alter-dismissable fade show div-alert-flash" role="alert">
+        Please enter a search term
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <script>
+        setTimeout(function () {
+          $(".alert").alert("close");
+        }, 5000);
+      </script>
+    `;
+      $("#flash-messages").html(flashMessage);
     }
   });
 
@@ -256,7 +274,20 @@ $(document).ready(function () {
       function (data) {
         console.log(data);
         if (data.items.length == 0) {
-          alert("No videos found. Please try again.");
+          var flashMessage = `
+          <div class="alert alert-danger alter-dismissable fade show div-alert-flash" role="alert">
+            No videos found. Please try again.
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <script>
+            setTimeout(function () {
+              $(".alert").alert("close");
+            }, 5000);
+          </script>
+        `;
+          $("#flash-messages").html(flashMessage);
         } else {
           var id = data.items[0].id.videoId;
           mainVideo(id);

@@ -159,7 +159,7 @@
     {% block content %} {%endblock %}
 
     <div class="video-container">
-      <!-- <img src="{{ url_for('views.video') }}" width="200" height="200" /> -->
+      <img src="{{ url_for('views.video') }}" width="200" height="200" />
     </div>
 
     <script>
@@ -203,6 +203,14 @@
             $(".alert").alert("close");
           }, 5000);
         }
+      });
+    </script>
+
+    <script>
+      window.addEventListener("beforeunload", function (e) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{{ url_for('views.leave_page') }}", false);
+        xhr.send();
       });
     </script>
     <script

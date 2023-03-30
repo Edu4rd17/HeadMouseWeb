@@ -299,7 +299,7 @@ def auto_click(stop_event):
         x, y = pyautogui.position()
         time.sleep(0.5)  # wait 1 second before checking again
         x2, y2 = pyautogui.position()
-        if x == x2 and y == y2:  # if mouse position hasn't changed
+        if abs(x - x2) < 5 and abs(y - y2) < 5:  # if mouse position hasn't changed much
             pyautogui.click()
 
 
@@ -341,6 +341,16 @@ def index():
     return render_template("index.html", user=current_user)
 
 # Fix so that we cant access this page if we are not logged in as admin
+
+
+@views.route('/leave-page', methods=['POST'])
+def leave_page():
+    global click_thread
+    if click_thread and click_thread.is_alive():
+        click_stop_event.set()  # set the stop event
+        click_thread.join()  # wait for the thread to finish
+        click_thread = None
+    return 'OK', 200
 
 
 @ views.route('/video')
