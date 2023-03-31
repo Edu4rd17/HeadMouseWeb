@@ -13,81 +13,7 @@ import threading
 from pynput.mouse import Button, Controller
 from pynput.keyboard import Listener, KeyCode
 
-
 views = Blueprint('views', __name__)
-
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_face_mesh = mp.solutions.face_mesh
-screen_w, screen_h = pyautogui.size()
-drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
-cap = cv2.VideoCapture(0)
-
-
-def gen_frames():
-
-    with mp_face_mesh.FaceMesh(
-            max_num_faces=1,
-            refine_landmarks=True,
-            min_detection_confidence=0.5,
-            min_tracking_confidence=0.5) as face_mesh:
-        while True:
-            success, image = cap.read()
-            image = cv2.flip(image, 1)
-            imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            if not success:
-                print("Ignoring empty camera frame.")
-                # If loading a video, use 'break' instead of 'continue'.
-                continue
-
-            # To improve performance, optionally mark the image as not writeable to
-            # pass by reference.
-            imageRBG.flags.writeable = False
-            results = face_mesh.process(imageRBG)
-
-            # Draw the face mesh annotations on the image.
-            imageRBG.flags.writeable = True
-            if results.multi_face_landmarks:
-                for face_landmarks in results.multi_face_landmarks:
-                    mp_drawing.draw_landmarks(
-                        image=imageRBG,
-                        landmark_list=face_landmarks,
-                        connections=mp_face_mesh.FACEMESH_IRISES,
-                        landmark_drawing_spec=None,
-                        connection_drawing_spec=mp_drawing_styles
-                        .get_default_face_mesh_tesselation_style())
-                    mp_drawing.draw_landmarks(
-                        image=imageRBG,
-                        landmark_list=face_landmarks,
-                        connections=mp_face_mesh.FACEMESH_CONTOURS,
-                        landmark_drawing_spec=None,
-                        connection_drawing_spec=mp_drawing_styles
-                        .get_default_face_mesh_tesselation_style())
-
-                    landmark_points = results.multi_face_landmarks
-                    frame_h, frame_w, _ = imageRBG.shape
-                    if landmark_points:
-                        landmarks = landmark_points[0].landmark
-                        for id, landmark in enumerate(landmarks[474:478]):
-                            x = int(landmark.x * frame_w)
-                            y = int(landmark.y * frame_h)
-                            cv2.circle(imageRBG, (x, y), 3, (0, 255, 0))
-                            if id == 1:
-                                screen_x = screen_w * landmark.x
-                                screen_y = screen_h * landmark.y
-                                pyautogui.moveTo(screen_x, screen_y)
-                        left = [landmarks[145], landmarks[159]]
-                        for landmark in left:
-                            x = int(landmark.x * frame_w)
-                            y = int(landmark.y * frame_h)
-                            cv2.circle(imageRBG, (x, y), 3, (0, 255, 255))
-                        if (left[0].y - left[1].y) < 0.004:
-                            pyautogui.click()
-                            pyautogui.sleep(1)
-                ret, buffer = cv2.imencode('.jpg', imageRBG)
-                imageRBG = buffer.tobytes()
-                # concat frame one by one and show result
-                yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + imageRBG + b'\r\n')
 
 
 # camera = cv2.VideoCapture(0)
@@ -278,18 +204,113 @@ def gen_frames():
 #             # concat frame one by one and show result
 #             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
 
+mp_drawing = mp.solutions.drawing_utils
+mp_drawing_styles = mp.solutions.drawing_styles
+mp_face_mesh = mp.solutions.face_mesh
+face_mesh = mp_face_mesh.FaceMesh(
+    max_num_faces=1,
+    refine_landmarks=True,
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5
+)
+screen_w, screen_h = pyautogui.size()
+drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
+# cap = cv2.VideoCapture(0)
 
-#  def on_press(key):
-#         if key == start_stop_key:
-#             if click_thread.running:
-#                 click_thread.stop_clicking()
-#             else:
-#                 click_thread.start_clicking()
-#         elif key == exit_key:
-#             click_thread.exit()
-#             listener.stop()
-#     with Listener(on_press=on_press) as listener:
-#         listener.join()
+# generate frame by frame from camera
+
+
+def gen_frames():
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Cannot open camera")
+        return
+
+    while cap.isOpened():
+        # generate frame by frame from camera
+        success, image = cap.read()
+
+        if not success:
+            print("Ignoring empty camera frame.")
+            # If loading a video, use 'break' instead of 'continue'.
+            break
+            # flip the frame
+        image = cv2.flip(image, 1)
+        # convert the frame to RGB
+        imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # To improve performance, optionally mark the image as not writeable to
+        # pass by reference.
+        image.flags.writeable = False
+        # process the rgb_frame using face_mesh
+        results = face_mesh.process(imageRBG)
+        # Draw the face mesh annotations on the image.
+        image.flags.writeable = True
+        if results.multi_face_landmarks:
+            for face_landmarks in results.multi_face_landmarks:
+                mp_drawing.draw_landmarks(
+                    image=image,
+                    landmark_list=face_landmarks,
+                    connections=mp_face_mesh.FACEMESH_IRISES,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp_drawing_styles
+                    .get_default_face_mesh_tesselation_style())
+                mp_drawing.draw_landmarks(
+                    image=image,
+                    landmark_list=face_landmarks,
+                    connections=mp_face_mesh.FACEMESH_CONTOURS,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp_drawing_styles
+                    .get_default_face_mesh_tesselation_style())
+                # landmarks of the face at this point if we print this the system is able to tell if there s a face present or not
+                landmark_points = results.multi_face_landmarks
+                # get the height and width of the frame
+                frame_h, frame_w, _ = image.shape
+                # check if there are landmarks
+                if landmark_points:
+                    # get the landmarks of the first face
+                    landmarks = landmark_points[0].landmark
+                    # loop through all the landmark points; select a range of index as we are only interested in the eyes
+                    for id, landmark in enumerate(landmarks[474:478]):
+                        # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
+                        x = int(landmark.x * frame_w)
+                        y = int(landmark.y * frame_h)
+                        # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
+                        # right eye
+                        cv2.circle(image, (x, y), 3, (0, 255, 0))
+
+                        if id == 1:
+                            screen_x = screen_w * landmark.x
+                            screen_y = screen_h * landmark.y
+                            pyautogui.moveTo(screen_x, screen_y)
+                    left = [landmarks[145], landmarks[159]]
+                    for landmark in left:
+                        x = int(landmark.x * frame_w)
+                        y = int(landmark.y * frame_h)
+                        cv2.circle(image, (x, y), 3, (0, 255, 255))
+                    if (left[0].y - left[1].y) < 0.004:
+                        pyautogui.click()
+                        pyautogui.sleep(1)
+        # else:
+            # with init.create_app().app_context():
+            #     message = "No face detected"
+            #     category = "error"
+            #     response = {'message': message, 'category': category}
+            # return jsonify(response)'
+            # print("No face detected")
+
+         # encode the image as JPEG
+        ret, buffer = cv2.imencode('.jpg', image)
+        # convert the image buffer to bytes
+        image = buffer.tobytes()
+        # yield the output frame in the byte format
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
+
+#   # release the capture and destroy all windows
+#     cap.release()
+#     cv2.destroyAllWindows()
+
+
 click_thread = None
 click_stop_event = threading.Event()
 
@@ -343,18 +364,8 @@ def index():
 # Fix so that we cant access this page if we are not logged in as admin
 
 
-@views.route('/leave-page', methods=['POST'])
-def leave_page():
-    global click_thread
-    if click_thread and click_thread.is_alive():
-        click_stop_event.set()  # set the stop event
-        click_thread.join()  # wait for the thread to finish
-        click_thread = None
-    return 'OK', 200
-
-
 @ views.route('/video')
-@ login_required
+# @ login_required
 def video():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -362,7 +373,6 @@ def video():
 @ views.route('/home', methods=['GET', 'POST'])
 @ login_required
 def home():
-
     return render_template("home.html", user=current_user)
 
 

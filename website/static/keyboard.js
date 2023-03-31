@@ -87,6 +87,7 @@ const Keyboard = {
       "m",
       ",",
       ".",
+      "@",
       "?",
       "space",
     ];
@@ -149,7 +150,7 @@ const Keyboard = {
           break;
 
         case "space":
-          keyElement.classList.add("keyboard__key--extra-wide");
+          keyElement.classList.add("keyboard__key--extra-wide-spacebar");
           keyElement.innerHTML = createIconHTML("space_bar");
 
           keyElement.addEventListener("click", () => {

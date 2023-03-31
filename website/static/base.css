@@ -144,7 +144,7 @@
 .keyboard__key {
   height: 45px;
   width: 6%;
-  max-width: 90px;
+  max-width: 100px;
   margin: 3px;
   border-radius: 4px;
   border: none;
@@ -162,12 +162,19 @@
   position: relative;
 }
 
+/* only make the spacebar button bigger than the other buttons */
+.keyboard__key--extra-wide-spacebar {
+  width: 36%;
+  max-width: 200px;
+}
+
 .keyboard__key:active {
   background: rgba(255, 255, 255, 0.12);
 }
 
 .keyboard__key--wide {
-  width: 12%;
+  width: 14%;
+  max-width: 150px;
 }
 
 .keyboard__key--extra--wide {

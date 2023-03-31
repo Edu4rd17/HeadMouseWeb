@@ -130,3 +130,4 @@ dmypy.json
 .pyre/
 settings.json
 website/env.js
+env.js
