@@ -324,10 +324,9 @@ $(document).ready(function () {
   //click event for the playlist videos to play the selected video
   $("main").on("click", "article", function () {
     var id = $(this).attr("data-key");
-    // console.log(id);
-    // videoDuration(id);
-    // playSelectedVideo(id);
     mainVideo(id);
+    // bring the user to the top of the page when a video is selected
+    window.scrollTo(0, 75);
   });
 });
 
