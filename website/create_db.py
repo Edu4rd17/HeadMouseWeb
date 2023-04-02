@@ -12,4 +12,9 @@ mydb = mysql.connector.connect(
 
 my_cursor = mydb.cursor()
 
-# my_cursor.execute("CREATE DATABASE headmouseweb")
+# delete database if exists already and create new one
+
+my_cursor.execute("DROP DATABASE IF EXISTS headmouseweb")
+my_cursor.execute("CREATE DATABASE headmouseweb")
+
+print("Database created")
