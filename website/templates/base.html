@@ -100,7 +100,9 @@
 
     <div id="nav-links">
       <nav class="navbar">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated %} {% if user.is_admin %}
+        <a href="{{ url_for('auth.adminPanel') }}">Admin Panel</a>
+        {% endif %}
         <a href="{{ url_for('views.userProfile') }}">{{ user.firstName }}</a>
         <a href="{{ url_for('views.youtube') }}">Youtube</a>
         <a href="{{ url_for('views.about') }}">About</a>
@@ -157,9 +159,9 @@
     </div>
 
     {% block content %} {%endblock %}
-    <div class="video-container">
+    <!-- <div class="video-container">
       <img src="{{ url_for('views.video') }}" width="200" height="200" />
-    </div>
+    </div> -->
 
     <script>
       $(document).ready(function () {

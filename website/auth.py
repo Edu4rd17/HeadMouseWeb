@@ -11,6 +11,13 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    # Redirect the user if they are already logged in
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            return redirect(url_for('auth.adminPanel'))
+        else:
+            return redirect(url_for('views.index'))
+
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -18,9 +25,14 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
-                flash('Logged in successfully!', category='success')
-                login_user(user, remember=True)
-                return redirect(url_for('views.index'))
+                if user.is_admin:
+                    flash('Logged in successfully Admin!', category='success')
+                    login_user(user, remember=True)
+                    return redirect(url_for('auth.adminPanel'))
+                else:
+                    flash('Logged in successfully!', category='success')
+                    login_user(user, remember=True)
+                    return redirect(url_for('views.index'))
             else:
                 flash('Wrong username or password.', category='error')
         else:
@@ -46,8 +58,28 @@ def send_welcome_email(user):
     mail.send(msg)
 
 
+@auth.route('/adminPanel')
+# @login_required
+def adminPanel():
+    if not current_user.is_authenticated:
+        flash('Please log in as an admin to access this page!', category='error')
+        return redirect(url_for('auth.login'))
+    elif not isinstance(current_user, User) or not current_user.is_admin:
+        flash('You are not authorized to view this page.', category='error')
+        return redirect(url_for('views.index'))
+    else:
+        return render_template("admin.html", users=User.query, user=current_user)
+
+
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    # Redirect the user if they are already logged in
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            return redirect(url_for('auth.adminPanel'))
+        else:
+            return redirect(url_for('views.index'))
+
     if request.method == 'POST':
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
