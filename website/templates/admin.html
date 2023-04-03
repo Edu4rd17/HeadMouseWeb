@@ -1,6 +1,10 @@
 {% extends "base.html" %} {% block title %}About{% endblock %} {% block content
 %}
-
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='admin.css') }}"
+/>
 <h1>Welcome Admin!!!</h1>
 
 <!-- get a table of all the users from the database as well as edit and delete buttons at the end of each row -->

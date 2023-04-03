@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_mail import Message
+import re
 
 
 auth = Blueprint('auth', __name__)
@@ -91,23 +92,39 @@ def register():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            flash('Email already exists.', category='error')
+            flash('This email is already linked to an account!', category='error')
 
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
 
+        elif not re.match(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$', email):
+            flash('Invalid email format. Please enter a valid email!',
+                  category='error')
+
         elif len(firstName) < 2:
             flash('First name must be greater than 1 character.', category='error')
 
+        elif len(lastName) < 2:
+            flash('Last name must be greater than 1 character.', category='error')
+
+        elif not re.match("^[A-Za-z]+$", firstName):
+            flash('First name should contain only letters', category='error')
+
+        elif not re.match("^[A-Za-z]+$", lastName):
+            flash('Last name should contain only letters', category='error')
+
         elif password != password2:
             flash('Passwords don\'t match.', category='error')
+
+        elif " " in password:
+            flash('Password should not contain spaces', category='error')
 
         elif len(password) < 7:
             flash('Password must be at least 7 characters.', category='error')
 
         else:
             # add user to database
-            new_user = User(email=email, firstName=firstName, lastName=lastName, password=generate_password_hash(
+            new_user = User(email=email, firstName=firstName.replace(" ", ""), lastName=lastName.replace(" ", ""), password=generate_password_hash(
                 password, method='sha256'), country=country, gender=gender)
             db.session.add(new_user)
             db.session.commit()
@@ -171,6 +188,9 @@ def resetPassword(token):
                     flash('Please enter a password.',
                           category='error')
 
+                elif " " in password:
+                    flash('Password should not contain spaces', category='error')
+
                 elif len(password) < 7:
                     flash('Password must be at least 7 characters.',
                           category='error')
@@ -208,17 +228,14 @@ def changePassword():
             if newPassword != confirmNewPassword:
                 flash('Passwords don\'t match.', category='error')
 
-                return redirect(url_for('auth.changePassword'))
-
             elif len(newPassword) == 0 or len(confirmNewPassword) == 0:
                 flash('Please enter a password.', category='error')
 
-                return redirect(url_for('auth.changePassword'))
+            elif " " in newPassword:
+                flash('Password should not contain spaces', category='error')
 
             elif len(newPassword) < 7:
                 flash('Password must be at least 7 characters.', category='error')
-
-                return redirect(url_for('auth.changePassword'))
 
             else:
                 hashed_password = generate_password_hash(
@@ -232,7 +249,5 @@ def changePassword():
         else:
             flash(
                 'Incorrect password, please enter your current account password.', category='error')
-
-            return redirect(url_for('auth.changePassword'))
 
     return render_template("changePassword.html", user=current_user)
