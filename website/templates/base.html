@@ -100,10 +100,10 @@
 
     <div id="nav-links">
       <nav class="navbar">
-        {% if user.is_authenticated %} {% if user.is_admin %}
+        {% if current_user.is_authenticated %} {% if current_user.is_admin %}
         <a href="{{ url_for('auth.adminPanel') }}">Admin Panel</a>
         {% endif %}
-        <a href="{{ url_for('views.userProfile') }}">{{ user.firstName }}</a>
+        <a href="{{ url_for('views.userProfile') }}">{{ current_user.firstName }}</a>
         <a href="{{ url_for('views.youtube') }}">Youtube</a>
         <a href="{{ url_for('views.about') }}">About</a>
         <!-- <a href="{{ url_for('views.home') }}">Home</a> -->

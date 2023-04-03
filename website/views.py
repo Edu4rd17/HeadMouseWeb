@@ -337,6 +337,8 @@ def index():
     return render_template("index.html", user=current_user)
 
 # Fix so that we cant access this page if we are not logged in as admin
+
+
 @ views.route('/video')
 # @ login_required
 def video():
@@ -377,69 +379,104 @@ def update_details(user):
     mail.send(msg)
 
 
-@ views.route('/userProfileEdit',  methods=['GET', 'POST'])
+@ views.route('/users/<int:user_id>/edit',  methods=['GET', 'POST'])
 @ login_required
-def userProfileEdit():
-    if request.method == 'POST':
-        firstName = request.form.get('firstName')
-        lastName = request.form.get('lastName')
-        email = request.form.get('email')
-        country = request.form.get('country')
-        gender = request.form.get('gender')
+def userProfileEdit(user_id):
+    # Get the user with the specified ID from the database
+    user = User.query.get(user_id)
 
-        if len(firstName) < 2:
+    if user is None:
+        # If the user is not found, redirect to a 404 page
+        return render_template('404.html'), 404
+
+    if not current_user.is_admin:
+        # If the user is not an admin, check if they are the owner of the account being edited
+        if current_user.id != user_id:
+            # If the user is not the owner, redirect to their own edit page
+            return redirect(url_for('views.userProfileEdit', user_id=current_user.id))
+
+    if request.method == 'POST':
+      # Update the user information based on the form data
+        user_to_edit = User.query.get(user_id)
+        user_to_edit.firstName = request.form.get('firstName')
+        user_to_edit.lastName = request.form.get('lastName')
+        user_to_edit.email = request.form.get('email')
+        user_to_edit.country = request.form.get('country')
+        user_to_edit.gender = request.form.get('gender')
+
+        if len(user_to_edit.firstName) < 2:
             flash('First name must be greater than 1 character.',
                   category='error')
 
             return redirect(url_for('views.userProfileEdit'))
 
         else:
-            if email != current_user.email:
+            if user_to_edit.email != user.email:
 
-                user = User.query.filter_by(email=email).first()
-                if user:
+                existing_user = User.query.filter_by(
+                    email=user_to_edit.email).first()
+                if existing_user:
                     flash('Email already exists.', category='error')
 
                     return redirect(url_for('views.userProfileEdit'))
 
-                elif len(email) < 4:
+                elif len(user_to_edit.email) < 4:
                     flash('Email must be greater than 3 characters.',
                           category='error')
 
                     return redirect(url_for('views.userProfileEdit'))
 
-                current_user.firstName = firstName
-                current_user.lastName = lastName
-                current_user.email = email
-                current_user.country = country
-                current_user.gender = gender
+                user_to_edit.firstName = user.firstName
+                user_to_edit.lastName = user.lastName
+                user_to_edit.email = user.email
+                user_to_edit.country = user.country
+                user_to_edit.gender = user.gender
                 db.session.commit()
-                update_details(current_user)
+                update_details(user)
                 flash('Details Updated Successfully', category='success')
 
-            elif email == current_user.email:
+            elif user_to_edit.email == user.email:
 
-                current_user.firstName = firstName
-                current_user.lastName = lastName
-                current_user.country = country
-                current_user.gender = gender
+                user_to_edit.firstName = user.firstName
+                user_to_edit.lastName = user.lastName
+                user_to_edit.country = user.country
+                user_to_edit.gender = user.gender
                 db.session.commit()
-                update_details(current_user)
+                update_details(user)
                 flash('Details Updated Successfully', category='success')
 
-        return redirect(url_for('views.userProfile'))
-    return render_template("userProfileEdit.html", user=current_user)
+        return redirect(url_for('views.userProfile', user_id=user.id))
+    return render_template("userProfileEdit.html", user=user)
 
 # remove user account
 
 
-@ views.route('/deleteAccount',  methods=['GET', 'POST'])
+@views.route('/deleteAccount/<int:user_id>', methods=['GET', 'POST'])
 @ login_required
-def deleteAccount():
-    db.session.delete(current_user)
+def deleteAccount(user_id):
+    # Get the user with the specified ID from the database
+    user = User.query.get(user_id)
+
+    if user is None:
+        # If the user is not found, redirect to a 404 page
+        return render_template('404.html'), 404
+
+    # Check if the logged in user is an admin
+    if not current_user.is_admin:
+        # If the user is not an admin, check if they are the owner of the account being edited
+        if current_user.id != user_id:
+            # If the user is not the owner, redirect to their own edit page
+            return redirect(url_for('views.userProfile', user_id=current_user.id))
+
+    # Delete the user from the database
+    db.session.query(User).filter_by(id=user_id).delete()
     db.session.commit()
-    flash('Account Deleted Successfully', category='success')
-    return redirect(url_for('views.index'))
+    if current_user.is_admin:
+        flash('User Deleted Successfully', category='success')
+        return redirect(url_for('auth.adminPanel'))
+    else:
+        flash('Account Deleted Successfully', category='success')
+        return redirect(url_for('views.index'))
 
 
 click_thread = None
