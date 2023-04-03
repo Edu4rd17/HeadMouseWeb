@@ -9,8 +9,7 @@ from flask_mail import Message
 from .models import User
 import time
 import threading
-from pynput.mouse import Button, Controller
-from pynput.keyboard import Listener, KeyCode
+import re
 
 views = Blueprint('views', __name__)
 
@@ -396,19 +395,40 @@ def userProfileEdit(user_id):
             return redirect(url_for('views.userProfileEdit', user_id=current_user.id))
 
     if request.method == 'POST':
-      # Update the user information based on the form data
-        user_to_edit = User.query.get(user_id)
-        user_to_edit.firstName = request.form.get('firstName')
-        user_to_edit.lastName = request.form.get('lastName')
-        user_to_edit.email = request.form.get('email')
-        user_to_edit.country = request.form.get('country')
-        user_to_edit.gender = request.form.get('gender')
+        # Get the user information from the form data
+        firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
+        email = request.form.get('email')
+        country = request.form.get('country')
+        gender = request.form.get('gender')
 
+        # Check if any details were edited
+        if firstName == user.firstName and lastName == user.lastName and email == user.email and country == user.country and gender == user.gender:
+            flash('No changes were made to the your account.', category='info')
+            return redirect(url_for('views.userProfile', user_id=user.id))
+
+        # Update the user information based on the form data
+        user_to_edit = User.query.get(user_id)
+        user_to_edit.firstName = firstName
+        user_to_edit.lastName = lastName
+        user_to_edit.email = email
+        user_to_edit.country = country
+        user_to_edit.gender = gender
+
+        # Perform validation checks
         if len(user_to_edit.firstName) < 2:
             flash('First name must be greater than 1 character.',
                   category='error')
 
-            return redirect(url_for('views.userProfileEdit'))
+        elif len(user_to_edit.lastName) < 2:
+            flash('Last name must be greater than 1 character.',
+                  category='error')
+
+        elif not re.match("^[A-Za-z]+$", user_to_edit.firstName):
+            flash('First name should contain only letters', category='error')
+
+        elif not re.match("^[A-Za-z]+$", user_to_edit.lastName):
+            flash('Last name should contain only letters', category='error')
 
         else:
             if user_to_edit.email != user.email:
@@ -417,14 +437,17 @@ def userProfileEdit(user_id):
                     email=user_to_edit.email).first()
                 if existing_user:
                     flash('Email already exists.', category='error')
-
-                    return redirect(url_for('views.userProfileEdit'))
+                    return redirect(url_for('views.userProfileEdit', user_id=user.id))
 
                 elif len(user_to_edit.email) < 4:
                     flash('Email must be greater than 3 characters.',
                           category='error')
+                    return redirect(url_for('views.userProfileEdit', user_id=user.id))
 
-                    return redirect(url_for('views.userProfileEdit'))
+                elif not re.match(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$', user_to_edit.email):
+                    flash('Invalid email format. Please enter a valid email!',
+                          category='error')
+                    return redirect(url_for('views.userProfileEdit', user_id=user.id))
 
                 user_to_edit.firstName = user.firstName
                 user_to_edit.lastName = user.lastName
