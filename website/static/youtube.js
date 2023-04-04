@@ -7,6 +7,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("existing-iframe", {
+    height: "1200",
+    width: "600",
     events: {
       onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
@@ -51,11 +53,6 @@ function onPlayerStateChange(event) {
     $("#play").click(function () {
       playVideo();
     });
-
-    //play the next video
-    // $("#playNext").click(function () {
-    //   playNextVideo();
-    // });
 
     //mute the video
     $("#mute").prop("disabled", false);
@@ -114,12 +111,6 @@ function onPlayerStateChange(event) {
   }
 }
 
-//play the selected video from the playlist
-// function playSelectedVideo(id) {
-//   player.loadVideoById(id);
-//   return false;
-// }
-
 //get the live video time
 function liveVideoTime(id) {
   //set a timer to update the video time every second
@@ -164,12 +155,6 @@ function pauseVideo() {
 function playVideo() {
   player.playVideo();
 }
-
-// function playNextVideo(data) {
-//   for (var i = 0; i < data.length; i++) {
-//     player.nextVideo(i);
-//   }
-// }
 
 //mute the video
 function muteVideo() {
@@ -326,7 +311,7 @@ $(document).ready(function () {
     var id = $(this).attr("data-key");
     mainVideo(id);
     // bring the user to the top of the page when a video is selected
-    window.scrollTo(0, 75);
+    window.scrollTo(0, 160);
   });
 });
 

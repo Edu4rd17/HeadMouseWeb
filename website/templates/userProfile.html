@@ -13,9 +13,9 @@ content %}
 <p>Country: {{user.country}}</p>
 <p>Gender: {{user.gender}}</p>
 
-<a href="{{ url_for('auth.changePassword') }}">Change Password</a>
+<a class="change-pass common-btns" href="{{ url_for('auth.changePassword') }}">Change Password</a>
 
-<a href="{{ url_for('views.userProfileEdit', user_id=user.id) }}"">Edit Details</a>
+<a class="edit-details common-btns" href="{{ url_for('views.userProfileEdit', user_id=user.id) }}"">Edit Details</a>
 
 <button
   class="delete-account-btn"
@@ -38,7 +38,7 @@ content %}
         >
           Cancel
         </button>
-        <a href="{{ url_for('views.deleteAccount', user_id=user.id) }}">Delete Account</a>
+        <a class="deletebtn" href="{{ url_for('views.deleteAccount', user_id=user.id) }}">Delete Account</a>
       </div>
     </div>
   </form>

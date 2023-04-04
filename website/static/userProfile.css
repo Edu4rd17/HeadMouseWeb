@@ -6,12 +6,26 @@ body {
   box-sizing: border-box;
 }
 
-.delete-account-btn {
+.common-btns{
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: lightblue;
+  color: white;
+  text-decoration: none;
+}
+
+.common-btns:hover{
   background-color: #04aa6d;
+  text-decoration: none;
+}
+
+.delete-account-btn {
+  background-color: #f44336;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   width: 200px;
   opacity: 0.9;
@@ -46,9 +60,18 @@ body {
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
+  text-decoration: none;
   cursor: pointer;
   width: 100%;
   opacity: 0.9;
+  color: black;
+}
+
+/* Add a hover effect for buttons */
+.deletebtn:hover {
+  opacity: 1;
+  text-decoration: none;
+  color: black;
 }
 
 /* Add padding and center-align text to the container */

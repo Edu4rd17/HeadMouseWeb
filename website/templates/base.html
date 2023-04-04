@@ -149,63 +149,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      {% endif %}
-      <script>
-        setTimeout(function () {
-          $(".alert").alert("close");
-        }, 5000);
-      </script>
-      {% endfor %} {% endif %} {% endwith %}
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
     </div>
 
     {% block content %} {%endblock %}
     <!-- <div class="video-container">
       <img src="{{ url_for('views.video') }}" width="200" height="200" />
     </div> -->
-
-    <script>
-      $(document).ready(function () {
-        $("#start-click").click(function () {
-          $.ajax({
-            type: "POST",
-            url: "/start-click",
-            success: function (response) {
-              displayFlashMessage(response);
-            },
-          });
-        });
-
-        $("#stop-click").click(function () {
-          $.ajax({
-            type: "POST",
-            url: "/stop-click",
-            success: function (response) {
-              displayFlashMessage(response);
-            },
-          });
-        });
-
-        function displayFlashMessage(response) {
-          var message = response.message;
-          var category = response.category;
-          var alertType = "alert-success";
-          if (category == "error") {
-            alertType = "alert-danger";
-          }
-          var html =
-            '<div class="alert ' +
-            alertType +
-            ' alert-dismissable fade show div-alert-flash" role="alert">' +
-            message +
-            '<button type="button" class="close" data-dismiss="alert">' +
-            '<span aria-hidden="true">&times;</span></button></div>';
-          $("#flash-messages").html(html);
-          setTimeout(function () {
-            $(".alert").alert("close");
-          }, 5000);
-        }
-      });
-    </script>
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='base.js') }}"

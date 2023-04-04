@@ -1,5 +1,12 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%} {% if user.is_authenticated %}
+%}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='index.css') }}"
+/>
+
+{% if user.is_authenticated %}
 <h1>Welcome to Head Mouse Web {{user.firstName}}</h1>
 {% else %}
 <h1>

@@ -335,9 +335,6 @@ def gen_frames():
 def index():
     return render_template("index.html", user=current_user)
 
-# Fix so that we cant access this page if we are not logged in as admin
-
-
 @ views.route('/video')
 # @ login_required
 def video():
