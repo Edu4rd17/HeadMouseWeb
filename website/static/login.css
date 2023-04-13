@@ -2,3 +2,73 @@
   content: "*";
   color: red;
 }
+
+.login-form-container .form-group {
+  margin-bottom: 15px;
+}
+
+.login-form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-form-container input[type="email"],
+.login-form-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.login-form-container button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-form a {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login-form-container {
+  justify-content: center;
+  align-items: center;
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.login-form h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.login-form {
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  .login-form-container {
+    width: 80%;
+  }
+}

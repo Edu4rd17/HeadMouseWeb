@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Arvo&display=swap");
+body{
+  font-family: "Arvo", serif;
+
+}
 
 * {
   margin: 0;
@@ -9,37 +13,56 @@
 /* navbar css */
 
 #logo,
-#nav-links,
-#scroll-btns {
+#nav-links {
   float: left;
-  /* width: 23%; */
+  width: 23%;
   padding: 0 10px;
 }
 
-#logo {
-  /* background-color: #a1edcc; */
-}
 #nav-links {
-  /* background-color: #a0e9ed; */
   width: 55%;
   display: block;
   text-align: center;
 }
-#scroll-btns {
-  /* background-color: #f497f1; */
+
+.header-container {
+  position: sticky;
+  top: 0px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.btns-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.btns-common {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #a0e9ed;
+  border: none;
+  margin-right: 15px;
+  font-weight: bold;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.autoclick-btn {
+}
+
+.btns-common:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
   background: #2b2d42;
   padding: 5px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   font-family: "Arvo", serif;
 }

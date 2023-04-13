@@ -7,41 +7,64 @@ content %}
   href="{{ url_for('static', filename='userProfile.css') }}"
 />
 
-<p>First Name: {{user.firstName}}</p>
-<p>Last Name: {{user.lastName}}</p>
-<p>Email address: {{user.email}}</p>
-<p>Country: {{user.country}}</p>
-<p>Gender: {{user.gender}}</p>
-
-<a class="change-pass common-btns" href="{{ url_for('auth.changePassword') }}">Change Password</a>
-
-<a class="edit-details common-btns" href="{{ url_for('views.userProfileEdit', user_id=user.id) }}"">Edit Details</a>
-
-<button
-  class="delete-account-btn"
-  onclick="document.getElementById('delete-account').style.display='block'"
->
-  Delete Account
-</button>
-
-<div id="delete-account" class="modal">
-  <form class="modal-content" action="/action_page.php">
-    <div class="container">
-      <h1>Delete Account</h1>
-      <p>Are you sure you want to delete your account?</p>
-
-      <div class="clearfix">
-        <button
-          type="button"
-          onclick="document.getElementById('delete-account').style.display='none'"
-          class="cancelbtn"
-        >
-          Cancel
-        </button>
-        <a class="deletebtn" href="{{ url_for('views.deleteAccount', user_id=user.id) }}">Delete Account</a>
-      </div>
+<div class="page-container">
+  <div class="container">
+    <div class="title-container">
+      <h1>User Profile</h1>
+      <p class="subtitle">
+        Here you can view your account details and edit them.
+      </p>
     </div>
-  </form>
+    <hr />
+    <p><b>First Name:</b> {{user.firstName}}</p>
+    <p><b>Last Name:</b> {{user.lastName}}</p>
+    <p><b>Email address:</b> {{user.email}}</p>
+    <p><b>Country:</b> {{user.country}}</p>
+    <p><b>Gender:</b> {{user.gender}}</p>
+
+    <a
+      class="change-pass common-btns"
+      href="{{ url_for('auth.changePassword') }}"
+      >Change Password</a
+    >
+
+    <a
+      class="edit-details common-btns"
+      href="{{ url_for('views.userProfileEdit', user_id=user.id) }}"
+      >Edit Details</a
+    >
+
+    <button
+      class="delete-account-btn"
+      onclick="document.getElementById('delete-account').style.display='block'"
+    >
+      Delete Account
+    </button>
+
+    <div id="delete-account" class="modal">
+      <form class="modal-content" action="/action_page.php">
+        <div class="container">
+          <h1>Delete Account</h1>
+          <p>Are you sure you want to delete your account?</p>
+
+          <div class="clearfix">
+            <button
+              type="button"
+              onclick="document.getElementById('delete-account').style.display='none'"
+              class="cancelbtn"
+            >
+              Cancel
+            </button>
+            <a
+              class="deletebtn"
+              href="{{ url_for('views.deleteAccount', user_id=user.id) }}"
+              >Delete Account</a
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <script

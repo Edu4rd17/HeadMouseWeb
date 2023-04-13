@@ -87,45 +87,54 @@
 
     gtag("config", "G-TKH5EDWJ5Y");
   </script> -->
-  <header class="header" id="header">
-    <div id="logo">
-      <p class="logo"><i class="material-icons">computer</i>HMWeb</p>
-    </div>
-
-    <div id="scroll-btns" class="scroll-buttons">
-      <button onclick="scrollDown()">Scroll down!</button>
-
-      <button onclick="scrollUp()">Scroll up!</button>
-    </div>
-
-    <div id="nav-links">
-      <nav class="navbar">
-        {% if current_user.is_authenticated %} {% if current_user.is_admin %}
-        <a href="{{ url_for('auth.adminPanel') }}">Admin Panel</a>
-        {% endif %}
-        <a href="{{ url_for('views.userProfile') }}"
-          >{{ current_user.firstName }}</a
-        >
-        <a href="{{ url_for('views.youtube') }}">Youtube</a>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-        {% else %}
-        <a href="{{ url_for('auth.login') }}">Login</a>
-        <a href="{{ url_for('auth.register') }}">Register</a>
-        {% endif %}
-        <a href="{{ url_for('views.about') }}">About</a>
-        <a href="{{ url_for('views.index') }}">Home</a>
-      </nav>
-      <div class="smaller-menu-btn">
-        <div id="menu-btn" class="fa-solid fa-bars fa-2x"></div>
+  <div class="header-container">
+    <header class="header" id="header">
+      <div id="logo">
+        <p class="logo"><i class="material-icons">computer</i>HMWeb</p>
       </div>
+      <div id="nav-links">
+        <nav class="navbar">
+          {% if current_user.is_authenticated %} {% if current_user.is_admin %}
+          <a href="{{ url_for('auth.adminPanel') }}">Admin Panel</a>
+          {% endif %}
+          <a href="{{ url_for('views.userProfile') }}"
+            >{{ current_user.firstName }}</a
+          >
+          <a href="{{ url_for('views.youtube') }}">Youtube</a>
+          <a href="{{ url_for('auth.logout') }}">Logout</a>
+          {% else %}
+          <a href="{{ url_for('auth.login') }}">Login</a>
+          <a href="{{ url_for('auth.register') }}">Register</a>
+          {% endif %}
+          <a href="{{ url_for('views.about') }}">About</a>
+          <a href="{{ url_for('views.index') }}">Home</a>
+        </nav>
+        <div class="smaller-menu-btn">
+          <div id="menu-btn" class="fa-solid fa-bars fa-2x"></div>
+        </div>
+      </div>
+    </header>
+    <!-- second nav bar -->
+    <div class="btns-header">
+      <button class="btns-common" onclick="scrollDown()">SCROLL DOWN</button>
+      <form id="auto-click-form">
+        <input
+          class="autoclick-btn btns-common"
+          type="button"
+          id="start-click"
+          value="START AUTO-CLICKING"
+        />
+        <input
+          class="autoclick-btn btns-common"
+          type="button"
+          id="stop-click"
+          value="STOP AUTO-CLICKING"
+        />
+      </form>
+      <button class="btns-common" onclick="scrollUp()">SCROLL UP</button>
     </div>
-  </header>
-
+  </div>
   <body>
-    <form id="auto-click-form">
-      <input type="button" id="start-click" value="Start Auto-clicking" />
-      <input type="button" id="stop-click" value="Stop Auto-clicking" />
-    </form>
     <div id="flash-messages">
       {% with messages = get_flashed_messages(with_categories=true) %} {% if
       messages %} {% for category, message in messages %} {% if category
