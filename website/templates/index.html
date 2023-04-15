@@ -1,60 +1,21 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}HeadMouseWeb - Home {% endblock %} {%
+block content %}
 <link
   rel="stylesheet"
   type="text/css"
   href="{{ url_for('static', filename='index.css') }}"
 />
 
-{% if user.is_authenticated %}
-<h1>Welcome to Head Mouse Web {{user.firstName}}</h1>
-{% else %}
-<h1>
-  Welcome to HeadMouseWeb. Please login or create an account to have full
-  access!
-</h1>
-{% endif %}
-
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-<p>Look at the horizontal scrollbar to see the effect.</p>
-
-{% endblock %}
+<div class="home-container">
+  <img
+    class="home-banner"
+    src="../static/images/hom1.jpg"
+    alt="My Website Banner"
+  />
+  {% if user.is_authenticated %}
+  <h1 class="home-title">Welcome to Head Mouse Web {{user.firstName}}</h1>
+  {% else %}
+  <h1>Welcome to HeadMouseWeb.</h1>
+  <p>Control</p>
+</div>
+{% endif %} {% endblock %}

@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Arvo&display=swap");
-body{
+body {
   font-family: "Arvo", serif;
-
+  height: 100%;
+  margin: 0;
 }
 
 * {
@@ -39,26 +40,35 @@ body{
   align-items: center;
   padding-bottom: 10px;
   padding-top: 10px;
+  /* background-color: #a6a6a6; */
 }
 
 .btns-common {
   padding: 10px;
   border-radius: 5px;
-  background-color: #a0e9ed;
-  border: none;
+  /* background-color: #007bff; */
+  border: 1px solid #fff;
+  color: white;
   margin-right: 15px;
   font-weight: bold;
   transition: box-shadow 0.3s ease-in-out;
+  text-decoration: none;
+  background-color: transparent;
 }
 .autoclick-btn {
 }
 
 .btns-common:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
+  color: #d90429;
+  background: #edf2f4;
+  padding: 10px;
 }
 
 .header {
-  background: #2b2d42;
+  background-image: url("../static/images/login.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 5px 5%;
   display: flex;
   justify-content: space-between;
@@ -69,13 +79,13 @@ body{
 
 .header .logo {
   padding-top: 8px;
-  color: #8d99ae;
+  color: white;
   font-size: 2rem;
   font-weight: bold;
 }
 
 .header .logo i {
-  color: #8d99ae;
+  color: white;
   margin-right: 0.5rem;
 }
 
@@ -233,4 +243,19 @@ body{
 .div-alert-flash {
   max-width: 600px;
   margin: auto;
+}
+
+.wrapper {
+  min-height: calc(
+    90vh - 60px - 70px
+  ); /* set the height of the wrapper to fill the viewport minus the height of the header and footer */
+}
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+  color: #777;
+  height: 70px;
+  padding-top: 20px;
 }

@@ -1,0 +1,23 @@
+body {
+  font-family: "Arvo", serif;
+  height: 100%;
+  margin: 0;
+}
+
+.home-container {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-banner{
+    width: 500px;
+}
+.home-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.home-container p {
+  font-size: 24px;
+  margin-bottom: 40px;
+}

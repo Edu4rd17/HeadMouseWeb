@@ -94,6 +94,8 @@
       </div>
       <div id="nav-links">
         <nav class="navbar">
+          <a href="{{ url_for('views.index') }}">Home</a>
+          <a href="{{ url_for('views.about') }}">About</a>
           {% if current_user.is_authenticated %} {% if current_user.is_admin %}
           <a href="{{ url_for('auth.adminPanel') }}">Admin Panel</a>
           {% endif %}
@@ -106,8 +108,6 @@
           <a href="{{ url_for('auth.login') }}">Login</a>
           <a href="{{ url_for('auth.register') }}">Register</a>
           {% endif %}
-          <a href="{{ url_for('views.about') }}">About</a>
-          <a href="{{ url_for('views.index') }}">Home</a>
         </nav>
         <div class="smaller-menu-btn">
           <div id="menu-btn" class="fa-solid fa-bars fa-2x"></div>
@@ -135,36 +135,38 @@
     </div>
   </div>
   <body>
-    <div id="flash-messages">
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %} {% for category, message in messages %} {% if category
-      =='error' %}
-      <div
-        class="alert alert-danger alter-dismissable fade show div-alert-flash"
-        role="alert"
-      >
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="wrapper">
+      <div id="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category
+        =='error' %}
+        <div
+          class="alert alert-danger alter-dismissable fade show div-alert-flash"
+          role="alert"
+        >
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% else %}
+        <div
+          class="alert alert-success alter-dismissable fade show div-alert-flash"
+          role="alert"
+        >
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
       </div>
-      {% else %}
-      <div
-        class="alert alert-success alter-dismissable fade show div-alert-flash"
-        role="alert"
-      >
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      {% endif %} {% endfor %} {% endif %} {% endwith %}
-    </div>
 
-    {% block content %} {%endblock %}
-    <!-- <div class="video-container">
+      {% block content %} {%endblock %}
+      <!-- <div class="video-container">
       <img src="{{ url_for('views.video') }}" width="200" height="200" />
     </div> -->
+    </div>
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='base.js') }}"
@@ -173,5 +175,10 @@
       type="text/javascript"
       src="{{ url_for('static', filename='keyboard.js') }}"
     ></script>
+    <footer class="footer">
+      <div class="container-fluid text-center">
+        <p>&copy; 2023 HeadMouse Web. All Rights Reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>
