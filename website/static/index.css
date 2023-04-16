@@ -1,17 +1,42 @@
 body {
-  font-family: "Arvo", serif;
-  height: 100%;
-  margin: 0;
+  /* background-image: url("../static/images/login.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; */
 }
 
 .home-container {
-  margin: 0 auto;
+  /* margin: 0 auto; */
   text-align: center;
 }
 
-.home-banner{
-    width: 500px;
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 550px; /* adjust the height according to your image */
+  overflow: hidden;
 }
+
+.home-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-text {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px #000000;
+}
+
 .home-title {
   font-size: 48px;
   margin-bottom: 20px;
@@ -20,4 +45,37 @@ body {
 .home-container p {
   font-size: 24px;
   margin-bottom: 40px;
+}
+
+.home-container .buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.home-container .buttons-container .login-about {
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  margin: 0 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #000;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+}
+
+.home-container .buttons-container .login-about:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 0 5px #000;
+}
+
+h1 {
+  font-size: 30px;
+  margin-top: 40px;
+}
+
+.home-container p {
+  font-size: 17px;
+  margin-left: 100px;
+  margin-right: 100px;
 }

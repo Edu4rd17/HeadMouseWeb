@@ -7,15 +7,23 @@ block content %}
 />
 
 <div class="home-container">
-  <img
-    class="home-banner"
-    src="../static/images/hom1.jpg"
-    alt="My Website Banner"
-  />
+  <div class="image-container">
+    <img
+      class="home-banner"
+      src="../static/images/home1.jpg"
+      alt="My Website Banner"
+    />
+    <div class="image-text">World Without Barriers</div>
+
+  </div>
   {% if user.is_authenticated %}
   <h1 class="home-title">Welcome to Head Mouse Web {{user.firstName}}</h1>
   {% else %}
   <h1>Welcome to HeadMouseWeb.</h1>
-  <p>Control</p>
+  <p>YouTube Control is an innovative web application that allows people with spinal cord injuries to navigate YouTube using only their head and eye movements. With our advanced computer vision technology, you can search for videos, play and pause them, adjust the volume and playback speed, and much more, all without using a traditional mouse and keyboard.</p>
+  <div class="buttons-container">
+    <a href="{{ url_for('auth.login') }}" class="login-about">Login</a>
+    <a href="{{ url_for('views.about') }}" class="login-about">About</a>
+  </div>
 </div>
 {% endif %} {% endblock %}

@@ -40,29 +40,31 @@ body {
   align-items: center;
   padding-bottom: 10px;
   padding-top: 10px;
-  /* background-color: #a6a6a6; */
+  background-color: rgba(255, 255, 255, 0.8);
+  margin-left: 300px;
+  margin-right: 300px;
+  border-radius: 5px;
 }
 
 .btns-common {
   padding: 10px;
   border-radius: 5px;
-  /* background-color: #007bff; */
-  border: 1px solid #fff;
+  background-color: #007bff;
+  border: none;
   color: white;
   margin-right: 15px;
   font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.8);
   transition: box-shadow 0.3s ease-in-out;
-  text-decoration: none;
-  background-color: transparent;
 }
 .autoclick-btn {
 }
 
 .btns-common:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
-  color: #d90429;
+  /* color: #d90429;
   background: #edf2f4;
-  padding: 10px;
+  padding: 10px; */
 }
 
 .header {
