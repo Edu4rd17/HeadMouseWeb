@@ -18,9 +18,14 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   event.target.playVideo();
-  //set a timer to update the video time every second
   videoDuration();
   liveVideoTime();
+  var videoTitle = player.getVideoData().title;
+  getCurrentVideoTitle(videoTitle);
+  //get the video channel
+  // var videoChannelName = player.getVideoData().author;
+  // getCurrentVideoChannel(videoChannelName);
+  // console.log(videoChannelName);
   if (event.target && event.target.postMessage) {
     event.target.postMessage("Hello", "https://www.youtube.com");
   } else {
@@ -124,6 +129,20 @@ function liveVideoTime(id) {
   }
 }
 
+function getCurrentVideoTitle(videoTitle) {
+  $("#current-video").html(
+    `<h1 class="current-playing-video-title">Currently playing: ${videoTitle}</h1>`
+  );
+  // console.log(videoTitle);
+}
+
+function getCurrentVideoChannel(videoChannel) {
+  $("#current-video-channel").html(
+    `<h1 class="current-playing-video-channel">Channel: ${videoChannel}</h1>`
+  );
+  // console.log(videoChannel);
+}
+
 //get the video duration
 function videoDuration(id) {
   var videoDuration;
@@ -217,7 +236,7 @@ $(document).ready(function () {
   //vars
   var YT_API_KEY = "";
   var URL = "https://www.googleapis.com/youtube/v3/search?key=";
-  var maxNumResults = 20;
+  var maxNumResults = 30;
 
   //check if form is submitted
   $("#form").submit(function (event) {
@@ -283,7 +302,11 @@ $(document).ready(function () {
             `<h1 class="videos-title-text">If you wish to play another video simply select one from the list below!</h1>`
           );
           var id = data.items[0].id.videoId;
+          var title = data.items[0].snippet.title;
+          var channel = data.items[0].snippet.channelTitle;
           mainVideo(id);
+          getCurrentVideoTitle(title);
+          getCurrentVideoChannel(channel);
           // bring the user to the top of the page when a video is selected
           $("html, body").animate({ scrollTop: 211 }, "slow");
           //empty the main div before appending the results
@@ -302,6 +325,7 @@ $(document).ready(function () {
       var title = item.snippet.title;
       var description = item.snippet.description.substring(0, 100);
       var vid = item.id.videoId;
+      var channel = item.snippet.channelTitle;
 
       //append the results to the main div
       $("main").append(`
@@ -309,6 +333,7 @@ $(document).ready(function () {
         <img src="${thumb}" alt="" class="thumb" />
         <div class="details">
           <h4 class="video-title">${title}</h4>
+          <p class="video-channel">${channel}</p>
           <p class="video-description">${description}</p>
         </div>
       </article>
@@ -320,7 +345,12 @@ $(document).ready(function () {
   //click event for the playlist videos to play the selected video
   $("main").on("click", "article", function () {
     var id = $(this).attr("data-key");
+    var title = $(this).find(".video-title").text(); // get the title from the clicked video
+    var channel = $(this).find(".video-channel").text(); // get the channel from the clicked video
     mainVideo(id);
+    getCurrentVideoTitle(title);
+    getCurrentVideoChannel(channel);
+    // console.log(getCurrentVideoChannel(channel) + "channel"); 
     // bring the user to the top of the page when a video is selected
     window.scrollTo({
       top: 211,
