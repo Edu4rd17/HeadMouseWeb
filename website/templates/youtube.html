@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}HeadMouseWeb - YouTube{% endblock %} {% block
-content %}
+{% extends "base.html" %} {% block title %}HeadMouseWeb - YouTube{% endblock %}
+{% block content %}
 
 <link
   rel="stylesheet"
@@ -15,42 +15,61 @@ content %}
 />
 
 <div class="page-container">
-  <header class="youtube-header">
-    <img src="../static/images/youtubeLogo.png" alt="" class="yt-logo" />
-  </header>
-  <form id="form">
-    <div class="form-group">
-      <input type="text" class="form-control use-keyboard-input" id="search" />
+  <div class="content-container">
+    <header class="youtube-header">
+      <img
+        src="../static/images/youtubeLogo.png"
+        alt="YouTube Logo"
+        class="yt-logo"
+      />
+    </header>
+    <div class="search-bar-text">
+      <h4 class="search-bar-text-title">
+        Use this search bar to search for your wanted content.
+      </h4>
     </div>
-    <div class="form-group">
-      <input type="submit" class="btn btn-danger" value="Search" />
+    <form id="form" class="yt-form">
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control use-keyboard-input"
+          id="search"
+        />
+      </div>
+      <div class="form-group">
+        <input type="submit" class="search-btn btn btn-danger" value="Search" />
+      </div>
+    </form>
+    <div class="buttons-container">
+      <button class="common-btns" id="mute" disabled>Mute</button>
+      <button class="common-btns" id="unMute" disabled>Unmute</button>
+      <button class="common-btns" id="rwnd" disabled>Back 10</button>
+      <button class="common-btns" id="fwrd" disabled>Forward 10</button>
+      <button class="common-btns" id="pause" disabled>Pause</button>
+      <button class="common-btns" id="play" disabled>Play</button>
+      <button class="common-btns" id="volumeUp" disabled>Volume Up</button>
+      <button class="common-btns" id="volumeDown" disabled>Volume Down</button>
+      <button class="common-btns" id="slowerVideo" disabled>Slow Down</button>
+      <button class="common-btns" id="normalSpeed" disabled>
+        Normal Speed
+      </button>
+      <button class="common-btns" id="fasterVideo" disabled>Speed Up</button>
     </div>
-  </form>
-  <button id="rwnd" disabled>Rewind 10 sec</button>
-  <button id="fwrd" disabled>Forward 10 sec</button>
-  <button id="pause" disabled>Pause Video</button>
-  <button id="play" disabled>Play Video</button>
-  <button id="mute" disabled>Mute Video</button>
-  <button id="unMute" disabled>Unmute Video</button>
-  <button id="volumeUp" disabled>Volume Up</button>
-  <button id="volumeDown" disabled>Volume Down</button>
-  <button id="slowerVideo" disabled>Slow Down</button>
-  <button id="normalSpeed" disabled>Normal Speed</button>
-  <button id="fasterVideo" disabled>Speed Up</button>
-  <!-- <button id="playNext">Next Video</button> -->
-  <iframe
-    class="ytVideo"
-    id="existing-iframe"
-    width="1200"
-    height="600"
-    src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&showinfo=0&controls=0&enablejsapi=1&origin&allowfullscreen=1:http://127.0.0.1:5000"
-    allow="autoplay; encrypted-media"
-  ></iframe>
-  <div id="videoDuration"></div>
-  <div id="liveVideoTime"></div>
-  <main class="yt"></main>
+    <iframe
+      class="ytVideo"
+      id="existing-iframe"
+      width="1300"
+      height="550"
+      src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&showinfo=0&controls=0&enablejsapi=1&origin&allowfullscreen=1:http://127.0.0.1:5000"
+      allow="autoplay; encrypted-media"
+    ></iframe>
+    <div class="video-time">
+      <div id="videoDuration"></div>
+      <div id="liveVideoTime"></div>
+    </div>
+    <main class="yt"></main>
+  </div>
 </div>
-
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
