@@ -69,6 +69,9 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
+.clear-btn {
+  margin-left: 10px;
+}
 .common-btns:hover {
   background-color: #fff;
   color: #004d99;
@@ -106,19 +109,24 @@ main {
 
 .ytVideo {
   pointer-events: none;
+  border-radius: 10px;
 }
 
 article {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border: 2px solid #fff;
   border-radius: 8px;
   margin: 0 auto;
+  border: 1px solid lightgrey;
+  transition: all 0.3s ease-in-out;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 article:hover {
   border: 2px solid #ff9999;
+  box-shadow: 0 0 5px 1px #ff9999;
 }
 
 .thumb {
@@ -130,18 +138,36 @@ article:hover {
   padding: 8px 22px;
 }
 
+.item {
+}
+
 .video-time {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#videos-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 15px;
+}
+
+.videos-title-text{
+  font-size: 20px;
+}
 #videoDuration,
 #liveVideoTime {
   border: 1px solid lightgrey;
   padding: 3px;
   border-radius: 4px;
   font-weight: bold;
+}
+
+#liveVideoTime {
+  margin-left: 10px;
 }
 
 #videoDuration p,

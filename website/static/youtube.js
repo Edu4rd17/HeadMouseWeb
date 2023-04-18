@@ -7,8 +7,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("existing-iframe", {
-    height: "1200",
-    width: "600",
+    height: "550",
+    width: "1300",
     events: {
       onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
@@ -223,6 +223,11 @@ $(document).ready(function () {
   $("#form").submit(function (event) {
     // Prevent the form from submitting via the browser.
     event.preventDefault();
+    // Add click event listener to clear button
+    $(".clear-btn").click(function () {
+      // Set search input field value to empty string
+      $("#search").val("");
+    });
     // Get the search term
     var search = $("#search").val();
     //check if search term is empty
@@ -274,8 +279,13 @@ $(document).ready(function () {
         `;
           $("#flash-messages").html(flashMessage);
         } else {
+          $("#videos-title").html(
+            `<h1 class="videos-title-text">If you wish to play another video simply select one from the list below!</h1>`
+          );
           var id = data.items[0].id.videoId;
           mainVideo(id);
+          // bring the user to the top of the page when a video is selected
+          $("html, body").animate({ scrollTop: 211 }, "slow");
           //empty the main div before appending the results
           $("main").empty();
           resultsLoop(data);
@@ -302,6 +312,7 @@ $(document).ready(function () {
           <p class="video-description">${description}</p>
         </div>
       </article>
+      <hr />
     `);
     });
   }
@@ -311,7 +322,10 @@ $(document).ready(function () {
     var id = $(this).attr("data-key");
     mainVideo(id);
     // bring the user to the top of the page when a video is selected
-    window.scrollTo(0, 160);
+    window.scrollTo({
+      top: 211,
+      behavior: "smooth",
+    });
   });
 });
 
