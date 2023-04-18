@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}HeadMouseWeb - Profile Edit{% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block title %}HeadMouseWeb - Profile Edit{%
+endblock %} {% block content %}
 
 <link
   rel="stylesheet"
@@ -7,80 +7,81 @@ block content %}
   href="{{ url_for('static', filename='userProfileEdit.css') }}"
 />
 
+<div class="editDetails-form-container">
+  <form class="editDetails-form" method="POST">
+    <h3>Edit Details</h3>
+    <div class="form-group">
+      <label class="required" for="firstname">First Name</label>
+      <input
+        type="text"
+        name="firstName"
+        class="form-control use-keyboard-input"
+        id="firstName"
+        placeholder="First Name"
+        value="{{ user.firstName }}"
+        required
+      />
+    </div>
 
-<h1>User Profile Edit</h1>
+    <div class="form-group">
+      <label class="required" for="lastname">Last Name</label>
+      <input
+        type="text"
+        name="lastName"
+        class="form-control use-keyboard-input"
+        id="lastName"
+        placeholder="Last Name"
+        value="{{ user.lastName }}"
+        required
+      />
+    </div>
 
-<form method="POST">
-  <h3 aling="center">Edit Details</h3>
-  <div class="form-group">
-    <label class="required" for="firstname">First Name</label>
-    <input
-      type="text"
-      name="firstName"
-      class="form-control use-keyboard-input"
-      id="firstName"
-      placeholder="First Name"
-      value="{{ user.firstName }}"
-      required
-    />
-  </div>
+    <div class="form-group">
+      <label class="required" for="email">Email address</label>
+      <input
+        type="email"
+        name="email"
+        class="form-control use-keyboard-input"
+        id="email"
+        placeholder="Email"
+        value="{{ user.email }}"
+        required
+      />
+    </div>
 
-  <div class="form-group">
-    <label class="required" for="lastname">Last Name</label>
-    <input
-      type="text"
-      name="lastName"
-      class="form-control use-keyboard-input"
-      id="lastName"
-      placeholder="Last Name"
-      value="{{ user.lastName }}"
-      required
-    />
-  </div>
+    <div class="form-group">
+      <label class="required" for="country">Country</label>
+      <select id="country" name="country" class="form-countries" required>
+        <option value="{{user.country}}">{{user.country}}</option>
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label class="required" for="email">Email address</label>
-    <input
-      type="email"
-      name="email"
-      class="form-control use-keyboard-input"
-      id="email"
-      placeholder="Email"
-      value="{{ user.email }}"
-      required
-    />
-  </div>
+    <div class="form-group">
+      <label class="required" for="gender">Gender</label>
+      <select name="gender" id="gender" required>
+        {% if user.gender == "Male" %}
+        <option value="{{user.gender}}">{{user.gender}}</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+        {% elif user.gender == "Female" %}
+        <option value="{{user.gender}}">{{user.gender}}</option>
+        <option value="Male">Male</option>
+        <option value="Other">Other</option>
+        {% else %}
+        <option value="{{user.gender}}">{{user.gender}}</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        {% endif %}
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label class="required" for="country">Country</label>
-    <select id="country" name="country" class="form-countries" required>
-      <option value="{{user.country}}">{{user.country}}</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label class="required" for="gender">Gender</label>
-    <select name="gender" id="gender" required>
-      {% if user.gender == "Male" %}
-      <option value="{{user.gender}}">{{user.gender}}</option>
-      <option value="Female">Female</option>
-      <option value="Other">Other</option>
-      {% elif user.gender == "Female" %}
-      <option value="{{user.gender}}">{{user.gender}}</option>
-      <option value="Male">Male</option>
-      <option value="Other">Other</option>
-      {% else %}
-      <option value="{{user.gender}}">{{user.gender}}</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      {% endif %}
-    </select>
-  </div>
-
-  <br />
-  <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <div>
+      <a href="{{ url_for('views.userProfile') }}">Cancel</a>
+    </div>
+  </form>
+</div>
 <script
   type="text/javascript"
   src="{{ url_for('static', filename='userProfileEdit.js') }}"

@@ -134,10 +134,10 @@ def gen_frames():
         # generate frame by frame from camera
         success, image = cap.read()
 
-        if not success:
-            print("Ignoring empty camera frame.")
-            # If loading a video, use 'break' instead of 'continue'.
-            break
+        # if not success:
+        #     print("Ignoring empty camera frame.")
+        #     # If loading a video, use 'break' instead of 'continue'.
+        #     break
             # flip the frame
         image = cv2.flip(image, 1)
         # convert the frame to RGB

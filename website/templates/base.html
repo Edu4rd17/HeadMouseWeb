@@ -94,14 +94,19 @@
       </div>
       <div id="nav-links">
         <nav class="navbar">
+          <!-- <div class="video-container">
+            <img
+              class="live-camera"
+              src="{{ url_for('views.video') }}"
+              preload="auto"
+            />
+          </div> -->
           <a href="{{ url_for('views.index') }}">Home</a>
-          <a href="{{ url_for('views.about') }}">About</a>
+          <a href="{{ url_for('views.about') }}">About Us</a>
           {% if current_user.is_authenticated %} {% if current_user.is_admin %}
           <a href="{{ url_for('auth.adminPanel') }}">Admin Panel</a>
           {% endif %}
-          <a href="{{ url_for('views.userProfile') }}"
-            >Profile</a
-          >
+          <a href="{{ url_for('views.userProfile') }}">Profile</a>
           <a href="{{ url_for('views.youtube') }}">Youtube</a>
           <a href="{{ url_for('auth.logout') }}">Logout</a>
           {% else %}
@@ -164,8 +169,8 @@
 
       {% block content %} {%endblock %}
       <!-- <div class="video-container">
-      <img src="{{ url_for('views.video') }}" width="200" height="200" />
-    </div> -->
+        <img src="{{ url_for('views.video') }}" width="60" height="60" />
+      </div> -->
     </div>
     <script
       type="text/javascript"
@@ -177,6 +182,10 @@
     ></script>
     <footer class="footer">
       <div class="container-fluid text-center">
+        <p>
+          Contact us at <a href="tel:089-456-7890">089-456-7890</a> or
+          <a href="mailto:info@headmouseweb.com">info@headmouseweb.com</a>
+        </p>
         <p>&copy; 2023 HeadMouse Web. All Rights Reserved.</p>
       </div>
     </footer>

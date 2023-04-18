@@ -11,19 +11,31 @@ block content %}
     <img
       class="home-banner"
       src="../static/images/home1.jpg"
-      alt="My Website Banner"
+      alt="World Without Barriers"
     />
     <div class="image-text">World Without Barriers</div>
-
   </div>
-  {% if user.is_authenticated %}
-  <h1 class="home-title">Welcome to Head Mouse Web {{user.firstName}}</h1>
-  {% else %}
-  <h1>Welcome to HeadMouseWeb.</h1>
-  <p>YouTube Control is an innovative web application that allows people with spinal cord injuries to navigate YouTube using only their head and eye movements. With our advanced computer vision technology, you can search for videos, play and pause them, adjust the volume and playback speed, and much more, all without using a traditional mouse and keyboard.</p>
+  <h1 class="home-title">Welcome to Head-Mouse Web!</h1>
+  <p>
+    Head-Mouse Web is an innovative web application that allows people with
+    spinal cord injuries to navigate YouTube using only their head and eye
+    movements. With our advanced computer vision technology, you can search for
+    videos, play and pause them, adjust the volume and playback speed, and much
+    more, all without using a traditional mouse and keyboard.
+  </p>
+  {% if not user.is_authenticated %}
+  <hr />
+  <p>
+    Please login or create an account to have full access to our application.
+  </p>
   <div class="buttons-container">
     <a href="{{ url_for('auth.login') }}" class="login-about">Login</a>
-    <a href="{{ url_for('views.about') }}" class="login-about">About</a>
+    <a href="{{ url_for('views.about') }}" class="login-about">Learn More</a>
+  </div>
+  {% else %}
+  <div class="buttons-container">
+    <a href="{{ url_for('views.youtube') }}" class="login-about">YouTube</a>
+    <a href="{{ url_for('views.about') }}" class="login-about">Learn More</a>
   </div>
 </div>
 {% endif %} {% endblock %}
