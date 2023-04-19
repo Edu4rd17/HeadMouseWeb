@@ -138,7 +138,7 @@ def gen_frames():
         #     print("Ignoring empty camera frame.")
         #     # If loading a video, use 'break' instead of 'continue'.
         #     break
-            # flip the frame
+        # flip the frame
         image = cv2.flip(image, 1)
         # convert the frame to RGB
         imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -335,6 +335,7 @@ def gen_frames():
 def index():
     return render_template("index.html", user=current_user)
 
+
 @ views.route('/video')
 # @ login_required
 def video():
@@ -401,8 +402,12 @@ def userProfileEdit(user_id):
 
         # Check if any details were edited
         if firstName == user.firstName and lastName == user.lastName and email == user.email and country == user.country and gender == user.gender:
-            flash('No changes were made to the your account.', category='info')
-            return redirect(url_for('views.userProfile', user_id=user.id))
+            if current_user.is_admin:
+                flash('No changes were made to the user account.', category='info')
+                return redirect(url_for('auth.adminPanel', user_id=user.id))
+            else:
+                flash('No changes were made to your account.', category='info')
+                return redirect(url_for('views.userProfileEdit', user_id=user.id))
 
         # Update the user information based on the form data
         user_to_edit = User.query.get(user_id)

@@ -21,9 +21,7 @@ body {
 }
 
 .page-container {
-  width: 1300px;
-  background-color: #fff;
-  margin: 0 auto;
+  background-color: #eee;
 }
 
 .yt-form,
@@ -38,6 +36,9 @@ body {
 }
 
 .content-container {
+  width: 1300px;
+  background-color: #fff;
+  margin: 0 auto;
   border: 1px solid lightgrey;
   border-radius: 4px;
   margin-bottom: 20px;
@@ -211,4 +212,10 @@ article:hover {
 #videoDuration p,
 #liveVideoTime p {
   margin: 0;
+}
+
+.sticky-button-container {
+  position: fixed;
+  z-index: 1;
+  right: 0;
 }

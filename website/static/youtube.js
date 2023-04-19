@@ -350,7 +350,7 @@ $(document).ready(function () {
     mainVideo(id);
     getCurrentVideoTitle(title);
     getCurrentVideoChannel(channel);
-    // console.log(getCurrentVideoChannel(channel) + "channel"); 
+    // console.log(getCurrentVideoChannel(channel) + "channel");
     // bring the user to the top of the page when a video is selected
     window.scrollTo({
       top: 211,
@@ -371,4 +371,11 @@ self.addEventListener("fetch", (event) => {
         .then((response) => response || fetch(event.request))
     );
   }
+});
+
+document.getElementById("return-video").addEventListener("click", function() {
+  window.scrollTo({
+    top: 211,
+    behavior: 'smooth'
+  });
 });
