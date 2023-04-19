@@ -4,7 +4,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import redirect, url_for
 from dotenv import load_dotenv
 import os
-# from flask_admin.contrib.sqla import ModelView
 load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')

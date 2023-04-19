@@ -27,12 +27,13 @@ screen_w, screen_h = pyautogui.size()
 drawing_spec = mp_drawing.DrawingSpec(
     thickness=1, circle_radius=1)
 
+cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    print("Cannot open camera")
+    exit()
+
 
 def gen_frames():
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        print("Cannot open camera")
-        return
     face_count = 0
     landmark_x0 = 0.5
     landmark_y0 = 0.5
@@ -111,7 +112,7 @@ def gen_frames():
                         x = int(landmark.x * frame_w)
                         y = int(landmark.y * frame_h)
                         cv2.circle(image, (x, y), 3, (0, 255, 255))
-                    if (left[0].y - left[1].y) < 0.008:
+                    if (left[0].y - left[1].y) < 0.006:
                         pyautogui.click()
                         pyautogui.sleep(0.1)
         else:
@@ -404,7 +405,7 @@ def auto_click(stop_event):
     while not stop_event.is_set():
         x, y = pyautogui.position()
         # wait 1 second before checking again
-        time.sleep(2)
+        time.sleep(1.5)
         x2, y2 = pyautogui.position()
         if abs(x - x2) < 20 and abs(y - y2) < 20:  # if mouse position hasn't changed much
             pyautogui.click()
