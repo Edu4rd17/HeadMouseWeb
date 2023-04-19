@@ -147,8 +147,8 @@ body {
 }
 
 .live-camera {
-  width: 60px;
-  height: 60px;
+  width: 200px;
+  height: 200px;
   border-radius: 20px;
 }
 /* end navbar css */
@@ -175,7 +175,7 @@ body {
 }
 
 .keyboard__key {
-  height: 45px;
+  height: 52px;
   width: 6%;
   max-width: 100px;
   margin: 3px;
@@ -198,7 +198,7 @@ body {
 /* only make the spacebar button bigger than the other buttons */
 .keyboard__key--extra-wide-spacebar {
   width: 36%;
-  max-width: 200px;
+  max-width: 300px;
 }
 
 .keyboard__key:active {

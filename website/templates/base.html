@@ -151,7 +151,15 @@
       </div>
 
       {% block content %} {%endblock %}
+      <div class="video-container">
+        <img
+          class="live-camera"
+          src="{{ url_for('views.video') }}"
+          preload="auto"
+        />
+      </div>
     </div>
+
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='base.js') }}"

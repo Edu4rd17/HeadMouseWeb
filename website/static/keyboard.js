@@ -90,6 +90,7 @@ const Keyboard = {
       "@",
       "?",
       "space",
+      "@gmail.com",
     ];
 
     // Creates HTML for an icon

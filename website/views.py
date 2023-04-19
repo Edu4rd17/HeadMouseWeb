@@ -27,100 +27,6 @@ screen_w, screen_h = pyautogui.size()
 drawing_spec = mp_drawing.DrawingSpec(
     thickness=1, circle_radius=1)
 
-# def gen_frames():
-#     cap = cv2.VideoCapture(0)
-#     if not cap.isOpened():
-#         print("Cannot open camera")
-#         return
-#     face_count = 0
-#     landmark_x0 = 0.5
-#     landmark_y0 = 0.5
-#     while cap.isOpened():
-#         # generate frame by frame from camera
-#         success, image = cap.read()
-
-#         if not success:
-#             print("Ignoring empty camera frame.")
-#             # If loading a video, use 'break' instead of 'continue'.
-#             break
-#             # flip the frame
-#         image = cv2.flip(image, 1)
-#         # convert the frame to RGB
-#         imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-#         # To improve performance, optionally mark the image as not writeable to
-#         # pass by reference.
-#         image.flags.writeable = False
-#         # process the rgb_frame using face_mesh
-#         results = face_mesh.process(imageRBG)
-#         # Draw the face mesh annotations on the image.
-#         image.flags.writeable = True
-#         if results.multi_face_landmarks:
-#             face_count += 1
-#             for face_landmarks in results.multi_face_landmarks:
-#                 # mp_drawing.draw_landmarks(
-#                 #     image=image,
-#                 #     landmark_list=face_landmarks,
-#                 #     connections=mp_face_mesh.FACEMESH_IRISES,
-#                 #     landmark_drawing_spec=None,
-#                 #     connection_drawing_spec=mp_drawing_styles
-#                 #     .get_default_face_mesh_iris_connections_style())
-#                 mp_drawing.draw_landmarks(
-#                     image=image,
-#                     landmark_list=face_landmarks,
-#                     connections=mp_face_mesh.FACEMESH_TESSELATION,
-#                     landmark_drawing_spec=None,
-#                     connection_drawing_spec=mp_drawing_styles
-#                     .get_default_face_mesh_tesselation_style())
-#                 # landmarks of the face at this point if we print this the system is able to tell if there s a face present or not
-#                 landmark_points = results.multi_face_landmarks
-#                 # get the height and width of the frame
-#                 frame_h, frame_w, _ = image.shape
-#                 # check if there are landmarks
-#                 if landmark_points:
-#                     # get the landmarks of the first face
-#                     landmarks = landmark_points[0].landmark
-#                     # loop through all the landmark points; select a range of index as we are only interested in the eyes
-#                     nose_tip = landmarks[5]
-
-#                     if face_count == 3:
-#                         landmark_x0 = nose_tip.x
-#                         landmark_y0 = nose_tip.y
-#                     # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
-#                     x = int(nose_tip.x * frame_w)
-#                     y = int(nose_tip.y * frame_h)
-
-#                     # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
-#                     # right eye
-#                     cv2.circle(image, (x, y), 3, (0, 255, 0))
-
-#                     # make the cursor move a bigger amount of pixels at a time
-#                     k = 6
-#                     screen_x = (nose_tip.x - landmark_x0) * \
-#                         (screen_w * k) + screen_w * landmark_x0
-#                     screen_y = (nose_tip.y - landmark_y0) * \
-#                         (screen_h * k) + screen_h * landmark_y0
-#                     # set pyauto gui to false
-#                     pyautogui.FAILSAFE = False
-#                     pyautogui.moveTo(screen_x, screen_y)
-#                     left = [landmarks[145], landmarks[159]]
-#                     for landmark in left:
-#                         x = int(landmark.x * frame_w)
-#                         y = int(landmark.y * frame_h)
-#                         cv2.circle(image, (x, y), 3, (0, 255, 255))
-#                     if (left[0].y - left[1].y) < 0.004:
-#                         pyautogui.click()
-#                         pyautogui.sleep(1)
-#         else:
-#             print("No face detected")
-
-#          # encode the image as JPEG
-#         ret, buffer = cv2.imencode('.jpg', image)
-#         # convert the image buffer to bytes
-#         image = buffer.tobytes()
-#         # yield the output frame in the byte format
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
-
 
 def gen_frames():
     cap = cv2.VideoCapture(0)
@@ -130,10 +36,11 @@ def gen_frames():
     face_count = 0
     landmark_x0 = 0.5
     landmark_y0 = 0.5
+    prev_screen_x, prev_screen_y = pyautogui.position()
+    tolerance = 50
     while cap.isOpened():
         # generate frame by frame from camera
         success, image = cap.read()
-
         # if not success:
         #     print("Ignoring empty camera frame.")
         #     # If loading a video, use 'break' instead of 'continue'.
@@ -175,37 +82,38 @@ def gen_frames():
                 if landmark_points:
                     # get the landmarks of the first face
                     landmarks = landmark_points[0].landmark
-                    # loop through all the landmark points; select a range of index as we are only interested in the eyes
-                    for id, landmark in enumerate(landmarks[474:478]):
-                        if face_count == 3:
-                            landmark_x0 = landmark.x
-                            landmark_y0 = landmark.y
-                        # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
-                        x = int(landmark.x * frame_w)
-                        y = int(landmark.y * frame_h)
+                    # loop through all the landmark points; select a range of index as we are only interested in the nose
+                    nose_tip = landmarks[4]
+                    # nose_tip = landmarks[414]
 
-                        # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
-                        # right eye
-                        cv2.circle(image, (x, y), 3, (0, 255, 0))
+                    if face_count == 3:
+                        landmark_x0 = nose_tip.x
+                        landmark_y0 = nose_tip.y
+                    # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
+                    x = int(nose_tip.x * frame_w)
+                    y = int(nose_tip.y * frame_h)
 
-                        if id == 1:
-                            # make the cursor move a bigger amount of pixels at a time
-                            k = 6
-                            screen_x = (landmark.x - landmark_x0) * \
-                                (screen_w * k) + screen_w * landmark_x0
-                            screen_y = (landmark.y - landmark_y0) * \
-                                (screen_h * k) + screen_h * landmark_y0
-                            # set pyauto gui to false
-                            pyautogui.FAILSAFE = False
-                            pyautogui.moveTo(screen_x, screen_y)
+                    # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
+                    cv2.circle(image, (x, y), 3, (0, 255, 0))
+                    # make the cursor move a bigger amount of pixels at a time
+                    k = 6
+                    screen_x = (nose_tip.x - landmark_x0) * \
+                        (screen_w * k) + screen_w * landmark_x0
+                    screen_y = (nose_tip.y - landmark_y0) * \
+                        (screen_h * k) + screen_h * landmark_y0
+                    # set pyauto gui to false
+                    if abs(screen_x - prev_screen_x) > tolerance or abs(screen_y - prev_screen_y) > tolerance:
+                        pyautogui.FAILSAFE = False
+                        pyautogui.moveTo(screen_x, screen_y)
+                        prev_screen_x, prev_screen_y = screen_x, screen_y
                     left = [landmarks[145], landmarks[159]]
                     for landmark in left:
                         x = int(landmark.x * frame_w)
                         y = int(landmark.y * frame_h)
                         cv2.circle(image, (x, y), 3, (0, 255, 255))
-                    if (left[0].y - left[1].y) < 0.004:
+                    if (left[0].y - left[1].y) < 0.008:
                         pyautogui.click()
-                        pyautogui.sleep(1)
+                        pyautogui.sleep(0.1)
         else:
             # display the text if no face is detected
             cv2.putText(image, "No face detected", (50, 50),
@@ -218,9 +126,7 @@ def gen_frames():
         # yield the output frame in the byte format
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
 
-
 # def gen_frames():
-#     scale = 20
 #     cap = cv2.VideoCapture(0)
 #     if not cap.isOpened():
 #         print("Cannot open camera")
@@ -232,35 +138,22 @@ def gen_frames():
 #         # generate frame by frame from camera
 #         success, image = cap.read()
 
-#         if not success:
-#             print("Ignoring empty camera frame.")
-#             # If loading a video, use 'break' instead of 'continue'.
-#             break
-#             # flip the frame
+#         # if not success:
+#         #     print("Ignoring empty camera frame.")
+#         #     # If loading a video, use 'break' instead of 'continue'.
+#         #     break
+#         # flip the frame
 #         image = cv2.flip(image, 1)
-
-#         # get the height and width of the frame
-#         frame_h, frame_w, _ = image.shape
-
-#         # prepare the crop
-#         centerX, centerY = int(frame_h/2), int(frame_w/2)
-#         radiusX, radiusY = int(scale*frame_h/100), int(scale*frame_w/100)
-
-#         minX, maxX = centerX-radiusX, centerX+radiusX
-#         minY, maxY = centerY-radiusY, centerY+radiusY
-#         cropped = image[minX:maxX, minY:maxY]
-#         resized_cropped_image = cv2.resize(cropped, (frame_w, frame_h))
 #         # convert the frame to RGB
-#         imageRBG = cv2.cvtColor(resized_cropped_image, cv2.COLOR_BGR2RGB)
+#         imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 #         # To improve performance, optionally mark the image as not writeable to
 #         # pass by reference.
-#         resized_cropped_image.flags.writeable = False
+#         image.flags.writeable = False
 #         # process the rgb_frame using face_mesh
 #         results = face_mesh.process(imageRBG)
 #         # Draw the face mesh annotations on the image.
-#         resized_cropped_image.flags.writeable = True
-
+#         image.flags.writeable = True
 #         if results.multi_face_landmarks:
 #             face_count += 1
 #             for face_landmarks in results.multi_face_landmarks:
@@ -271,16 +164,17 @@ def gen_frames():
 #                 #     landmark_drawing_spec=None,
 #                 #     connection_drawing_spec=mp_drawing_styles
 #                 #     .get_default_face_mesh_iris_connections_style())
-#                 # mp_drawing.draw_landmarks(
-#                 #     image=resized_cropped_image,
-#                 #     landmark_list=face_landmarks,
-#                 #     connections=mp_face_mesh.FACEMESH_TESSELATION,
-#                 #     landmark_drawing_spec=None,
-#                 #     connection_drawing_spec=mp_drawing_styles
-#                 #     .get_default_face_mesh_tesselation_style())
+#                 mp_drawing.draw_landmarks(
+#                     image=image,
+#                     landmark_list=face_landmarks,
+#                     connections=mp_face_mesh.FACEMESH_TESSELATION,
+#                     landmark_drawing_spec=None,
+#                     connection_drawing_spec=mp_drawing_styles
+#                     .get_default_face_mesh_tesselation_style())
 #                 # landmarks of the face at this point if we print this the system is able to tell if there s a face present or not
 #                 landmark_points = results.multi_face_landmarks
-
+#                 # get the height and width of the frame
+#                 frame_h, frame_w, _ = image.shape
 #                 # check if there are landmarks
 #                 if landmark_points:
 #                     # get the landmarks of the first face
@@ -293,10 +187,10 @@ def gen_frames():
 #                         # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
 #                         x = int(landmark.x * frame_w)
 #                         y = int(landmark.y * frame_h)
+
 #                         # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
 #                         # right eye
-#                         cv2.circle(resized_cropped_image,
-#                                    (x, y), 3, (0, 255, 0))
+#                         cv2.circle(image, (x, y), 3, (0, 255, 0))
 
 #                         if id == 1:
 #                             # make the cursor move a bigger amount of pixels at a time
@@ -312,24 +206,22 @@ def gen_frames():
 #                     for landmark in left:
 #                         x = int(landmark.x * frame_w)
 #                         y = int(landmark.y * frame_h)
-#                         cv2.circle(resized_cropped_image,
-#                                    (x, y), 3, (0, 255, 255))
+#                         cv2.circle(image, (x, y), 3, (0, 255, 255))
 #                     if (left[0].y - left[1].y) < 0.004:
 #                         pyautogui.click()
 #                         pyautogui.sleep(1)
 #         else:
-#             cv2.putText(resized_cropped_image, "No face detected", (50, 50),
+#             # display the text if no face is detected
+#             cv2.putText(image, "No face detected", (50, 50),
 #                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
 
 #          # encode the image as JPEG
-#         ret, buffer = cv2.imencode('.jpg', resized_cropped_image)
+#         ret, buffer = cv2.imencode('.jpg', image)
 #         # convert the image buffer to bytes
-#         resized_cropped_image = buffer.tobytes()
+#         image = buffer.tobytes()
 #         # yield the output frame in the byte format
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + resized_cropped_image + b'\r\n')
-#   # release the capture and destroy all windows
-#     cap.release()
-#     cv2.destroyAllWindows()
+#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
+
 
 @ views.route('/')
 def index():
@@ -511,9 +403,10 @@ click_stop_event = threading.Event()
 def auto_click(stop_event):
     while not stop_event.is_set():
         x, y = pyautogui.position()
-        time.sleep(0.5)  # wait 1 second before checking again
+        # wait 1 second before checking again
+        time.sleep(2)
         x2, y2 = pyautogui.position()
-        if abs(x - x2) < 5 and abs(y - y2) < 5:  # if mouse position hasn't changed much
+        if abs(x - x2) < 20 and abs(y - y2) < 20:  # if mouse position hasn't changed much
             pyautogui.click()
 
 
