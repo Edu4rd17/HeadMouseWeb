@@ -142,7 +142,7 @@ def send_reset_email(user):
                   sender='noreply@headmouseweb.com', recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
 {url_for('auth.resetPassword', token=token, _external=True)}
-
+This link will expire in 5 minutes.
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
     from . import mail

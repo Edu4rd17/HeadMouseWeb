@@ -6,7 +6,6 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 import os
 from flask_cors import CORS
-# from flask_admin import Admin
 
 load_dotenv()
 
@@ -15,8 +14,6 @@ DB_NAME = os.getenv('DB_NAME')
 LOCALHOST_PASS = os.getenv('LOCALHOST_PASS')
 LOCALHOST_USER = os.getenv('LOCALHOST_USER')
 SECRET_KEY = os.getenv('SECRET_KEY')
-# admin = Admin(name='Admin Panel', template_mode='bootstrap3')
-
 
 def create_app():
     app = Flask(__name__)
@@ -43,14 +40,12 @@ def create_app():
     loginManager = LoginManager()
     loginManager.login_view = 'auth.login'
     loginManager.init_app(app)
-    # admin.init_app(app)
 
     @loginManager.user_loader
     def load_user(id):
         return User.query.get(int(id))
 
     return app
-
 
 def create_database(app):
     if not path.exists('website/' + DB_NAME):
