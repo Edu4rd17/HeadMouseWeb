@@ -10,7 +10,6 @@ function scrollDown() {
   window.scrollBy(0, 200);
 }
 
-
 function scrollUp() {
   window.scrollBy(0, -200);
 }

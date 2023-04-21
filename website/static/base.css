@@ -160,10 +160,11 @@ body {
   bottom: 0;
   width: 100%;
   padding: 5px 0;
-  background: #2b2d42;
+  background-color: rgba(0, 153, 230, 0.9);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   user-select: none;
   transition: bottom 0.4s;
+  border-radius: 10px;
 }
 
 .keyboard--hidden {
@@ -181,9 +182,9 @@ body {
   margin: 3px;
   border-radius: 4px;
   border: none;
-  background: rgba(255, 255, 255, 0.2);
+  background: #004d99;
   color: #fff;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   outline: none;
   cursor: pointer;
   display: inline-flex;
@@ -195,10 +196,16 @@ body {
   position: relative;
 }
 
+.keyboard__key:hover {
+  background-color: #fff;
+  color: black;
+  box-shadow: 0 0 5px 1px #004d99;
+}
+
 /* only make the spacebar button bigger than the other buttons */
 .keyboard__key--extra-wide-spacebar {
   width: 36%;
-  max-width: 300px;
+  max-width: 350px;
 }
 
 .keyboard__key:active {
@@ -230,10 +237,6 @@ body {
   background: #08ff00;
 }
 
-.keyboard__key--dark {
-  background: rgba(0, 0, 0, 0.25);
-}
-
 /* end keyboard section css */
 
 .video-container {
@@ -242,7 +245,14 @@ body {
 
 .div-alert-flash {
   max-width: 600px;
-  margin: auto;
+  margin: 115px auto 0;
+}
+
+#flash-messages {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
 }
 
 .wrapper {

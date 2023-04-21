@@ -85,12 +85,15 @@ const Keyboard = {
       "b",
       "n",
       "m",
-      ",",
+      "!",
       ".",
       "@",
       "?",
+      ".ie",
+      "@yahoo.com",
       "space",
       "@gmail.com",
+      ".com",
     ];
 
     // Creates HTML for an icon
@@ -145,6 +148,28 @@ const Keyboard = {
 
           keyElement.addEventListener("click", () => {
             this.properties.value += "\n";
+            this._triggerEvent("oninput");
+          });
+
+          break;
+
+        case "@gmail.com":
+          keyElement.classList.add("keyboard__key--wide");
+          keyElement.textContent = "@gmail.com";
+          // Add click event listener
+          keyElement.addEventListener("click", () => {
+            this.properties.value += "@gmail.com";
+            this._triggerEvent("oninput");
+          });
+
+          break;
+
+        case "@yahoo.com":
+          keyElement.classList.add("keyboard__key--wide");
+          keyElement.textContent = "@yahoo.com";
+          // Add click event listener
+          keyElement.addEventListener("click", () => {
+            this.properties.value += "@yahoo.com";
             this._triggerEvent("oninput");
           });
 

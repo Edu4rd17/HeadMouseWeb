@@ -46,12 +46,3 @@ class User(db.Model, UserMixin):
         # if it succeeds, return the user with the id
         return User.query.get(user_id)
 
-# class AdminModelView(ModelView):
-#     def is_accessible(self):
-#         return current_user.is_authenticated and current_user.is_admin
-
-#     def inaccessible_callback(self, name, **kwargs):
-#         return redirect(url_for('auth.login'))
-
-
-# admin.add_view(AdminModelView(User, db.session))

@@ -1,6 +1,5 @@
 body {
   font-family: "Arvo", serif !important;
-  /* background-color: #eee; */
 }
 
 @mixin font-base {
@@ -105,7 +104,6 @@ section,
 main {
   padding-top: 50px;
   padding-bottom: 50px;
-  /* pointer-events: none; */
 }
 
 .ytVideo {
@@ -171,7 +169,6 @@ article:hover {
 
 .current-playing-video-title {
   font-size: 20px;
-  /* font-weight: bold; */
   border: 1px solid lightgrey;
   border-radius: 4px;
   padding: 8px 12px;
@@ -195,7 +192,6 @@ article:hover {
 
 .videos-title-text {
   font-size: 20px;
-  /* font-weight: bold; */
 }
 #videoDuration,
 #liveVideoTime {

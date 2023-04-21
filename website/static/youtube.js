@@ -373,9 +373,9 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-document.getElementById("return-video").addEventListener("click", function() {
+document.getElementById("return-video").addEventListener("click", function () {
   window.scrollTo({
     top: 211,
-    behavior: 'smooth'
+    behavior: "smooth",
   });
 });

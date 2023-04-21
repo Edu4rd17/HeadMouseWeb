@@ -9,7 +9,6 @@ body {
   background-size: cover;
 }
 
-/* Center the form */
 .editDetails-form-container {
   justify-content: center;
   align-items: center;
@@ -19,7 +18,6 @@ body {
   margin-bottom: 30px;
 }
 
-/* Style the form */
 .editDetails-form {
   padding: 20px;
   border-radius: 10px;
@@ -29,13 +27,11 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Style the form header */
 .editDetails-form h3 {
   margin-top: 0;
   text-align: center;
 }
 
-/* Style the form inputs */
 .editDetails-form .form-group {
   margin-bottom: 15px;
 }
@@ -92,4 +88,8 @@ body {
   display: block;
   text-align: center;
   margin-top: 15px;
+}
+
+.editDetails-form .form-group option {
+  font-size: 30px;
 }
