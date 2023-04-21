@@ -1,26 +1,4 @@
-//list of countries in the world
-
-document.addEventListener("DOMContentLoaded", () => {
-  const selectDropCountry = document.querySelector("#country");
-
-  fetch("https://restcountries.com/v2/all")
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      let output = `<option value="">-Select Country-</option>`;
-      output += `<option value="Ireland">Ireland</option>`;
-      data.forEach((country) => {
-        output += `<option value="${country.name}">${country.name}</option>`;
-      });
-      selectDropCountry.innerHTML = output;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-const passwordInput = document.getElementById("password");
+const passwordInput = document.getElementById("currentPassword");
 const passwordToggleIcon = document.querySelector(".password-toggle-icon");
 
 passwordToggleIcon.addEventListener("click", () => {
@@ -35,9 +13,26 @@ passwordToggleIcon.addEventListener("click", () => {
   }
 });
 
-const confirmPasswordInput = document.getElementById("password2");
+const newPasswordInput = document.getElementById("newPassword");
+const newPasswordToggleIcon = document.querySelector(
+  ".newPassword-toggle-icon"
+);
+
+newPasswordToggleIcon.addEventListener("click", () => {
+  if (newPasswordInput.type === "password") {
+    newPasswordInput.type = "text";
+    newPasswordToggleIcon.style.backgroundImage =
+      "url('../static/images/show-icon.jpg')";
+  } else {
+    newPasswordInput.type = "password";
+    newPasswordToggleIcon.style.backgroundImage =
+      "url('../static/images/hide-icon.jpg')";
+  }
+});
+
+const confirmPasswordInput = document.getElementById("confirmNewPassword");
 const confirmPasswordToggleIcon = document.querySelector(
-  ".password2-toggle-icon"
+  ".confirmNewPassword-toggle-icon"
 );
 
 confirmPasswordToggleIcon.addEventListener("click", () => {

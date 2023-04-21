@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}HeadMouseWeb - Register{% endblock %} {% block
-content %}
+{% extends "base.html" %} {% block title %}HeadMouseWeb - Register{% endblock %}
+{% block content %}
 
 <link
   rel="stylesheet"
@@ -48,28 +48,32 @@ content %}
 
     <div class="form-group">
       <label class="required" for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        class="form-control use-keyboard-input"
-        id="password"
-        placeholder="Password"
-        required
-      />
+      <div class="password-wrapper">
+        <input
+          type="password"
+          name="password"
+          class="form-control use-keyboard-input"
+          id="password"
+          placeholder="Password"
+          required
+        />
+        <span class="password-toggle-icon"></span>
+      </div>
     </div>
-
     <div class="form-group">
       <label class="required" for="password2">Confirm Password</label>
-      <input
-        type="password"
-        name="password2"
-        class="form-control use-keyboard-input"
-        id="password2"
-        placeholder="Confirm Password"
-        required
-      />
+      <div class="password2-wrapper">
+        <input
+          type="password"
+          name="password2"
+          class="form-control use-keyboard-input"
+          id="password2"
+          placeholder="Confirm Password"
+          required
+        />
+        <span class="password2-toggle-icon"></span>
+      </div>
     </div>
-
     <div class="form-group">
       <label class="required" for="country">Country</label>
       <select

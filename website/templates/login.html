@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}HeadMouseWeb - Login{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}HeadMouseWeb - Login{% endblock %} {%
+block content %}
 
 <link
   rel="stylesheet"
@@ -24,16 +24,18 @@
 
     <div class="form-group">
       <label class="required" for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        class="form-control use-keyboard-input"
-        id="password"
-        placeholder="Password"
-        required
-      />
+      <div class="password-wrapper">
+        <input
+          type="password"
+          name="password"
+          class="form-control use-keyboard-input"
+          id="password"
+          placeholder="Password"
+          required
+        />
+        <span class="password-toggle-icon"></span>
+      </div>
     </div>
-
     <br />
     <button type="submit" class="">Login</button>
     <div>
@@ -42,4 +44,8 @@
     </div>
   </form>
 </div>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='login.js') }}"
+></script>
 {% endblock %}
