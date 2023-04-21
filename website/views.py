@@ -1,4 +1,3 @@
-import math
 from flask import Blueprint, render_template, request, flash, redirect, url_for, Response, jsonify
 from flask_login import login_user, login_required, current_user
 import cv2
@@ -39,6 +38,8 @@ def gen_frames():
     landmark_y0 = 0.5
     prev_screen_x, prev_screen_y = pyautogui.position()
     tolerance = 50
+    prev_pos = pyautogui.position()
+    last_click_time = 0
     while cap.isOpened():
         # generate frame by frame from camera
         success, image = cap.read()
@@ -113,8 +114,15 @@ def gen_frames():
                         y = int(landmark.y * frame_h)
                         cv2.circle(image, (x, y), 3, (0, 255, 255))
                     if (left[0].y - left[1].y) < 0.006:
-                        pyautogui.click()
-                        pyautogui.sleep(0.1)
+                        current_pos = pyautogui.position()
+                        if current_pos != prev_pos:
+                            prev_pos = current_pos
+                            time.sleep(0.1)
+                            continue
+                        else:
+                            if time.time() - last_click_time > 2:  # check if 2 seconds have passed
+                                pyautogui.click()
+                                last_click_time = time.time()  # update the last click time
         else:
             # display the text if no face is detected
             cv2.putText(image, "No face detected", (50, 50),
