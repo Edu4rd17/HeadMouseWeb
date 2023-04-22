@@ -43,10 +43,6 @@ def gen_frames():
     while cap.isOpened():
         # generate frame by frame from camera
         success, image = cap.read()
-        # if not success:
-        #     print("Ignoring empty camera frame.")
-        #     # If loading a video, use 'break' instead of 'continue'.
-        #     break
         # flip the frame
         image = cv2.flip(image, 1)
         # convert the frame to RGB
@@ -84,17 +80,14 @@ def gen_frames():
                 if landmark_points:
                     # get the landmarks of the first face
                     landmarks = landmark_points[0].landmark
-                    # loop through all the landmark points; select a range of index as we are only interested in the nose
                     nose_tip = landmarks[4]
                     # nose_tip = landmarks[414]
-
                     if face_count == 3:
                         landmark_x0 = nose_tip.x
                         landmark_y0 = nose_tip.y
                     # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
                     x = int(nose_tip.x * frame_w)
                     y = int(nose_tip.y * frame_h)
-
                     # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
                     cv2.circle(image, (x, y), 3, (0, 255, 0))
                     # make the cursor move a bigger amount of pixels at a time
@@ -308,7 +301,7 @@ def userProfileEdit(user_id):
                 return redirect(url_for('auth.adminPanel', user_id=user.id))
             else:
                 flash('No changes were made to your account.', category='info')
-                return redirect(url_for('views.userProfileEdit', user_id=user.id))
+                return redirect(url_for('views.userProfile', user_id=user.id))
 
         # Update the user information based on the form data
         user_to_edit = User.query.get(user_id)

@@ -47,12 +47,13 @@ body {
 .editDetails-form input[type="password"],
 .editDetails-form select {
   width: 100%;
+  height: 40px;
   padding: 10px;
   border-radius: 5px;
   border: none;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  font-size: 16px;
+  font-size: 20px;
   font-family: inherit;
 }
 
@@ -68,21 +69,27 @@ body {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: #007bff;
+  background-color: #004d99;
   color: #fff;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.editDetails-form button[type="submit"]:hover {
-  background-color: #0062cc;
+.editDetails-form button[type="submit"]:hover,
+.editDetails-form-container a:hover {
+  background-color: #c1f0f0;
+  color: black;
+  box-shadow: 0 0 5px 1px #004d99;
 }
 
-.changePassword-form-container a {
+.editDetails-form-container a {
   margin-top: 10px;
+  text-decoration: none;
 }
+
+
 
 .editDetails-form a {
   display: block;
@@ -92,4 +99,8 @@ body {
 
 .editDetails-form .form-group option {
   font-size: 30px;
+}
+
+.editDetails-form hr {
+  background-color: black;
 }

@@ -10,6 +10,7 @@
 <div class="register-form-container">
   <form class="register-form" method="POST">
     <h3>Register Form</h3>
+    <hr />
     <div class="form-group">
       <label class="required" for="firstname">First Name</label>
       <input
@@ -97,7 +98,7 @@
     <br />
     <button type="submit" class="btn btn-primary">Register</button>
     <div>
-      <a href="{{ url_for('auth.login') }}">Already have an account?</a>
+      <a class="redirect-links" href="{{ url_for('auth.login') }}">Already have an account?</a>
     </div>
   </form>
 </div>

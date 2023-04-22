@@ -30,8 +30,18 @@ body {
   margin-right: 20px;
 }
 
-.search-btn {
+.search-btn, .clear-btn {
   width: 150px;
+  font-size: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-btn:hover {
+  box-shadow: 0 0 5px 1px red;
+}
+
+.clear-btn:hover {
+  box-shadow: 0 0 5px 1px blue;
 }
 
 .content-container {

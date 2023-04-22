@@ -10,6 +10,7 @@ block content %}
 <div class="login-form-container">
   <form class="login-form" method="POST">
     <h3>Login Form</h3>
+    <hr />
     <div class="form-group">
       <label class="required" for="email">Email address</label>
       <input
@@ -39,8 +40,14 @@ block content %}
     <br />
     <button type="submit" class="">Login</button>
     <div>
-      <a href="{{ url_for('auth.register') }}">Don't have an account?</a>
-      <a href="{{ url_for('auth.requestResetPassword') }}">Forgot Password?</a>
+      <a class="redirect-links" href="{{ url_for('auth.register') }}"
+        >Don't have an account?</a
+      >
+      <a
+        class="redirect-links"
+        href="{{ url_for('auth.requestResetPassword') }}"
+        >Forgot Password?</a
+      >
     </div>
   </form>
 </div>
