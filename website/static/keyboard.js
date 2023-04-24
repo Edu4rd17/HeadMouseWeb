@@ -40,6 +40,18 @@ const Keyboard = {
         });
       });
     });
+
+    // Hide keyboard when the user clicks away from the input field or outside the keyboard area
+    document.addEventListener("click", (event) => {
+      const targetElement = event.target;
+
+      if (
+        !targetElement.closest(".keyboard") &&
+        !targetElement.classList.contains("use-keyboard-input")
+      ) {
+        this.close();
+      }
+    });
   },
 
   _createKeys() {
