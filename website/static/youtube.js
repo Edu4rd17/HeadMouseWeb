@@ -238,6 +238,10 @@ $(document).ready(function () {
   var URL = "https://www.googleapis.com/youtube/v3/search?key=";
   var maxNumResults = 30;
 
+  $(".clear-btn").click(function () {
+    // Set search input field value to empty string
+    $("#search").val("");
+  });
   //check if form is submitted
   $("#form").submit(function (event) {
     // Prevent the form from submitting via the browser.

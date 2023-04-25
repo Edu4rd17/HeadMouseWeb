@@ -32,7 +32,7 @@ if not cap.isOpened():
     exit()
 
 
-def gen_frames():
+def liveFaceRecognitionTracking():
     face_count = 0
     landmark_x0 = 0.5
     landmark_y0 = 0.5
@@ -47,9 +47,6 @@ def gen_frames():
         image = cv2.flip(image, 1)
         # convert the frame to RGB
         imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-        # To improve performance, optionally mark the image as not writeable to
-        # pass by reference.
         image.flags.writeable = False
         # process the rgb_frame using face_mesh
         results = face_mesh.process(imageRBG)
@@ -58,13 +55,6 @@ def gen_frames():
         if results.multi_face_landmarks:
             face_count += 1
             for face_landmarks in results.multi_face_landmarks:
-                # mp_drawing.draw_landmarks(
-                #     image=image,
-                #     landmark_list=face_landmarks,
-                #     connections=mp_face_mesh.FACEMESH_IRISES,
-                #     landmark_drawing_spec=None,
-                #     connection_drawing_spec=mp_drawing_styles
-                #     .get_default_face_mesh_iris_connections_style())
                 mp_drawing.draw_landmarks(
                     image=image,
                     landmark_list=face_landmarks,
@@ -128,102 +118,6 @@ def gen_frames():
         # yield the output frame in the byte format
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
 
-# def gen_frames():
-#     cap = cv2.VideoCapture(0)
-#     if not cap.isOpened():
-#         print("Cannot open camera")
-#         return
-#     face_count = 0
-#     landmark_x0 = 0.5
-#     landmark_y0 = 0.5
-#     while cap.isOpened():
-#         # generate frame by frame from camera
-#         success, image = cap.read()
-
-#         # if not success:
-#         #     print("Ignoring empty camera frame.")
-#         #     # If loading a video, use 'break' instead of 'continue'.
-#         #     break
-#         # flip the frame
-#         image = cv2.flip(image, 1)
-#         # convert the frame to RGB
-#         imageRBG = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-#         # To improve performance, optionally mark the image as not writeable to
-#         # pass by reference.
-#         image.flags.writeable = False
-#         # process the rgb_frame using face_mesh
-#         results = face_mesh.process(imageRBG)
-#         # Draw the face mesh annotations on the image.
-#         image.flags.writeable = True
-#         if results.multi_face_landmarks:
-#             face_count += 1
-#             for face_landmarks in results.multi_face_landmarks:
-#                 # mp_drawing.draw_landmarks(
-#                 #     image=image,
-#                 #     landmark_list=face_landmarks,
-#                 #     connections=mp_face_mesh.FACEMESH_IRISES,
-#                 #     landmark_drawing_spec=None,
-#                 #     connection_drawing_spec=mp_drawing_styles
-#                 #     .get_default_face_mesh_iris_connections_style())
-#                 mp_drawing.draw_landmarks(
-#                     image=image,
-#                     landmark_list=face_landmarks,
-#                     connections=mp_face_mesh.FACEMESH_TESSELATION,
-#                     landmark_drawing_spec=None,
-#                     connection_drawing_spec=mp_drawing_styles
-#                     .get_default_face_mesh_tesselation_style())
-#                 # landmarks of the face at this point if we print this the system is able to tell if there s a face present or not
-#                 landmark_points = results.multi_face_landmarks
-#                 # get the height and width of the frame
-#                 frame_h, frame_w, _ = image.shape
-#                 # check if there are landmarks
-#                 if landmark_points:
-#                     # get the landmarks of the first face
-#                     landmarks = landmark_points[0].landmark
-#                     # loop through all the landmark points; select a range of index as we are only interested in the eyes
-#                     for id, landmark in enumerate(landmarks[474:478]):
-#                         if face_count == 3:
-#                             landmark_x0 = landmark.x
-#                             landmark_y0 = landmark.y
-#                         # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
-#                         x = int(landmark.x * frame_w)
-#                         y = int(landmark.y * frame_h)
-
-#                         # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
-#                         # right eye
-#                         cv2.circle(image, (x, y), 3, (0, 255, 0))
-
-#                         if id == 1:
-#                             # make the cursor move a bigger amount of pixels at a time
-#                             k = 6
-#                             screen_x = (landmark.x - landmark_x0) * \
-#                                 (screen_w * k) + screen_w * landmark_x0
-#                             screen_y = (landmark.y - landmark_y0) * \
-#                                 (screen_h * k) + screen_h * landmark_y0
-#                             # set pyauto gui to false
-#                             pyautogui.FAILSAFE = False
-#                             pyautogui.moveTo(screen_x, screen_y)
-#                     left = [landmarks[145], landmarks[159]]
-#                     for landmark in left:
-#                         x = int(landmark.x * frame_w)
-#                         y = int(landmark.y * frame_h)
-#                         cv2.circle(image, (x, y), 3, (0, 255, 255))
-#                     if (left[0].y - left[1].y) < 0.004:
-#                         pyautogui.click()
-#                         pyautogui.sleep(1)
-#         else:
-#             # display the text if no face is detected
-#             cv2.putText(image, "No face detected", (50, 50),
-#                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
-
-#          # encode the image as JPEG
-#         ret, buffer = cv2.imencode('.jpg', image)
-#         # convert the image buffer to bytes
-#         image = buffer.tobytes()
-#         # yield the output frame in the byte format
-#         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')
-
 
 @ views.route('/')
 def index():
@@ -233,7 +127,7 @@ def index():
 @ views.route('/video')
 # @ login_required
 def video():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(liveFaceRecognitionTracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @ views.route('/home')
@@ -366,8 +260,6 @@ def userProfileEdit(user_id):
 
         return redirect(url_for('views.userProfile', user_id=user.id))
     return render_template("userProfileEdit.html", user=user)
-
-# remove user account
 
 
 @views.route('/deleteAccount/<int:user_id>', methods=['GET', 'POST'])

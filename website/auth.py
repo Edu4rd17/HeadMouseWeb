@@ -114,7 +114,7 @@ def register():
             flash('Last name should contain only letters', category='error')
 
         elif password != password2:
-            flash('Passwords don\'t match.', category='error')
+            flash('Passwords do not match.', category='error')
 
         elif " " in password:
             flash('Password should not contain spaces', category='error')
@@ -130,7 +130,7 @@ def register():
             db.session.commit()
             login_user(new_user, remember=True)
             send_welcome_email(new_user)
-            flash('Account created!', category='success')
+            flash('Account created successfully!', category='success')
 
             return redirect(url_for('views.index'))
     return render_template("register.html", user=current_user)
