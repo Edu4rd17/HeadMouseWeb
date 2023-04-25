@@ -63,6 +63,7 @@ body {
   text-transform: uppercase;
   font-size: 0.8rem;
   border-radius: 0.5rem;
+  border: 1px solid white;
   padding: 0.5rem 1.5rem;
   text-decoration: none;
   font-weight: bold;
@@ -103,11 +104,13 @@ body {
   margin-right: 15px;
   font-weight: bold;
   background-color: rgba(0, 0, 0, 0.8);
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.8;
 }
 
 .btns-common:hover {
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 13px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.3);
+  opacity: 2;
 }
 
 @media (max-width: 950px) {
@@ -202,6 +205,14 @@ body {
   box-shadow: 0 0 5px 1px #004d99;
 }
 
+.keyboard__key.black-bg {
+  background-color: black;
+}
+
+.keyboard__key.white-txt {
+  color: white;
+}
+
 /* only make the spacebar button bigger than the other buttons */
 .keyboard__key--extra-wide-spacebar {
   width: 36%;
@@ -245,15 +256,20 @@ body {
 
 .div-alert-flash {
   max-width: 600px;
-  margin: 115px auto 0;
+  margin: 0 auto;
+  /* display: inline-block; */
 }
 
 #flash-messages {
   position: fixed;
-  top: 0;
+  top: 115px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
   width: 100%;
-  z-index: 9999;
+  text-align: center;
 }
+
 
 .wrapper {
   min-height: calc(90vh - 60px - 70px);

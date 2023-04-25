@@ -32,6 +32,25 @@ const Keyboard = {
     this.elements.main.appendChild(this.elements.keysContainer);
     document.body.appendChild(this.elements.main);
 
+    // Add event listeners to keys
+    this.elements.keys.forEach((key) => {
+      key.addEventListener("click", () => {
+        // Add black background color
+        key.classList.add("black-bg");
+        key.classList.add("white-txt");
+
+        // Remove black background color after one second
+        setTimeout(() => {
+          key.classList.remove("black-bg");
+          key.classList.remove("white-txt");
+        }, 500);
+
+        // Handle key press
+        const keyValue = key.getAttribute("data-value");
+        this._handleKeyPress(keyValue);
+      });
+    });
+
     // Automatically use keyboard for elements with .use-keyboard-input
     document.querySelectorAll(".use-keyboard-input").forEach((element) => {
       element.addEventListener("focus", () => {
