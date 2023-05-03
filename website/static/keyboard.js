@@ -289,9 +289,4 @@ const Keyboard = {
 
 window.addEventListener("DOMContentLoaded", function () {
   Keyboard.init();
-  // Keyboard.open("dcode", function (currentValue) {
-  //     console.log("Value changed!", currentValue);
-  // }, function (currentValue) {
-  //     console.log("Keyboard Closed! Finishing value: " + currentValue);
-  // });
 });

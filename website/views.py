@@ -62,7 +62,6 @@ def liveFaceRecognitionTracking():
                     landmark_drawing_spec=None,
                     connection_drawing_spec=mp_drawing_styles
                     .get_default_face_mesh_tesselation_style())
-                # landmarks of the face at this point if we print this the system is able to tell if there s a face present or not
                 landmark_points = results.multi_face_landmarks
                 # get the height and width of the frame
                 frame_h, frame_w, _ = image.shape
@@ -75,7 +74,6 @@ def liveFaceRecognitionTracking():
                     if face_count == 3:
                         landmark_x0 = nose_tip.x
                         landmark_y0 = nose_tip.y
-                    # get the x and y coordinates of the landmarks, to draw the circle we need to cast to a integer number (its required)
                     x = int(nose_tip.x * frame_w)
                     y = int(nose_tip.y * frame_h)
                     # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
@@ -125,7 +123,6 @@ def index():
 
 
 @ views.route('/video')
-# @ login_required
 def video():
     return Response(liveFaceRecognitionTracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -181,7 +178,6 @@ def userProfileEdit(user_id):
             return redirect(url_for('views.userProfileEdit', user_id=current_user.id))
 
     if request.method == 'POST':
-        # Get the user information from the form data
         firstName = request.form.get('firstName')
         lastName = request.form.get('lastName')
         email = request.form.get('email')
@@ -297,7 +293,7 @@ click_stop_event = threading.Event()
 def auto_click(stop_event):
     while not stop_event.is_set():
         x, y = pyautogui.position()
-        # wait 1 second before checking again
+        # wait 1.5 second before checking again
         time.sleep(1.5)
         x2, y2 = pyautogui.position()
         if abs(x - x2) < 20 and abs(y - y2) < 20:  # if mouse position hasn't changed much

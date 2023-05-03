@@ -22,10 +22,6 @@ function onPlayerReady(event) {
   liveVideoTime();
   var videoTitle = player.getVideoData().title;
   getCurrentVideoTitle(videoTitle);
-  //get the video channel
-  // var videoChannelName = player.getVideoData().author;
-  // getCurrentVideoChannel(videoChannelName);
-  // console.log(videoChannelName);
   if (event.target && event.target.postMessage) {
     event.target.postMessage("Hello", "https://www.youtube.com");
   } else {
@@ -140,7 +136,6 @@ function getCurrentVideoChannel(videoChannel) {
   $("#current-video-channel").html(
     `<h1 class="current-playing-video-channel">Channel: ${videoChannel}</h1>`
   );
-  // console.log(videoChannel);
 }
 
 //get the video duration
@@ -148,7 +143,6 @@ function videoDuration(id) {
   var videoDuration;
   videoDuration = formatTime(player.getDuration(id));
   $("#videoDuration").html(`<p>Video Duration: ${videoDuration}</p>`);
-  // console.log(videoDuration);
 }
 
 //rewind the video by 10 seconds
@@ -354,7 +348,6 @@ $(document).ready(function () {
     mainVideo(id);
     getCurrentVideoTitle(title);
     getCurrentVideoChannel(channel);
-    // console.log(getCurrentVideoChannel(channel) + "channel");
     // bring the user to the top of the page when a video is selected
     window.scrollTo({
       top: 211,
