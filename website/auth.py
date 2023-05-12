@@ -108,7 +108,7 @@ def register():
             flash('Last name must be greater than 1 character.', category='error')
 
         elif not re.match("^[A-Za-z]+$", firstName):
-            flash('First name should contain only letters', category='error')
+            flash('First name should contain only letters.', category='error')
 
         elif not re.match("^[A-Za-z]+$", lastName):
             flash('Last name should contain only letters', category='error')
@@ -117,7 +117,7 @@ def register():
             flash('Passwords do not match.', category='error')
 
         elif " " in password:
-            flash('Password should not contain spaces', category='error')
+            flash('Password should not contain spaces.', category='error')
 
         elif len(password) < 7:
             flash('Password must be at least 7 characters.', category='error')

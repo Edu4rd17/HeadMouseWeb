@@ -24,13 +24,14 @@
       <p class="user-info"><b>Gender:</b> {{user.gender}}</p>
     </div>
     <a
-      class="change-pass common-btns"
+      class="change-pass common-btns" id="change-pass-btn"
       href="{{ url_for('auth.changePassword') }}"
       >Change Password</a
     >
 
     <a
       class="edit-details common-btns"
+      id="edit-details-btn"
       href="{{ url_for('views.userProfileEdit', user_id=user.id) }}"
       >Edit Details</a
     >
