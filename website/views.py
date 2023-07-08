@@ -22,7 +22,7 @@ face_mesh = mp_face_mesh.FaceMesh(
     min_tracking_confidence=0.5,
     static_image_mode=False
 )
-screen_w, screen_h = pyautogui.size()
+screen_width, screen_height = pyautogui.size()
 drawing_spec = mp_drawing.DrawingSpec(
     thickness=1, circle_radius=1)
 
@@ -62,39 +62,39 @@ def liveFaceRecognitionTracking():
                     landmark_drawing_spec=None,
                     connection_drawing_spec=mp_drawing_styles
                     .get_default_face_mesh_tesselation_style())
-                landmark_points = results.multi_face_landmarks
+                landmarks_points = results.multi_face_landmarks
                 # get the height and width of the frame
-                frame_h, frame_w, _ = image.shape
+                frame_height, frame_width, _ = image.shape
                 # check if there are landmarks
-                if landmark_points:
+                if landmarks_points:
                     # get the landmarks of the first face
-                    landmarks = landmark_points[0].landmark
+                    landmarks = landmarks_points[0].landmark
                     nose_tip = landmarks[4]
                     # nose_tip = landmarks[414]
                     if face_count == 3:
                         landmark_x0 = nose_tip.x
                         landmark_y0 = nose_tip.y
-                    x = int(nose_tip.x * frame_w)
-                    y = int(nose_tip.y * frame_h)
+                    x = int(nose_tip.x * frame_width)
+                    y = int(nose_tip.y * frame_height)
                     # draw a circle on the landmark; x and y are the center ; 3 is the radius and 0, 255, 0 is the color
                     cv2.circle(image, (x, y), 3, (0, 255, 0))
                     # make the cursor move a bigger amount of pixels at a time
                     k = 6
                     screen_x = (nose_tip.x - landmark_x0) * \
-                        (screen_w * k) + screen_w * landmark_x0
+                        (screen_width * k) + screen_width * landmark_x0
                     screen_y = (nose_tip.y - landmark_y0) * \
-                        (screen_h * k) + screen_h * landmark_y0
+                        (screen_height * k) + screen_height * landmark_y0
                     # set pyauto gui to false
                     if abs(screen_x - prev_screen_x) > tolerance or abs(screen_y - prev_screen_y) > tolerance:
                         pyautogui.FAILSAFE = False
                         pyautogui.moveTo(screen_x, screen_y)
                         prev_screen_x, prev_screen_y = screen_x, screen_y
-                    left = [landmarks[145], landmarks[159]]
-                    for landmark in left:
-                        x = int(landmark.x * frame_w)
-                        y = int(landmark.y * frame_h)
+                    leftEye = [landmarks[145], landmarks[159]]
+                    for landmark in leftEye:
+                        x = int(landmark.x * frame_width)
+                        y = int(landmark.y * frame_height)
                         cv2.circle(image, (x, y), 3, (0, 255, 255))
-                    if (left[0].y - left[1].y) < 0.006:
+                    if (leftEye[0].y - leftEye[1].y) < 0.006:
                         current_pos = pyautogui.position()
                         if current_pos != prev_pos:
                             prev_pos = current_pos

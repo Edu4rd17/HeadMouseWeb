@@ -228,7 +228,7 @@ function mainVideo(id) {
 
 $(document).ready(function () {
   //vars
-  var YT_API_KEY = "";
+  var YT_API_KEY = "AIzaSyCRUR04csuNXtP0lxrJAcQ0inxXtmxZSKw";
   var URL = "https://www.googleapis.com/youtube/v3/search?key=";
   var maxNumResults = 30;
 

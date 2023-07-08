@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import Select
 import pytest
 import time
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -302,7 +301,6 @@ def test_navigationBarLoggedIn():
     driver.find_element(By.NAME, "email").send_keys(
         "testlogin@gmail.com")
     driver.find_element(By.NAME, "password").send_keys("passwordtest")
-  # Scroll to the bottom of the page to avoid virtual keyboard covering the button
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
     driver.find_element(By.NAME, "submitLogin").click()
@@ -395,9 +393,8 @@ def test_register_and_redirect():
     gender = Select(driver.find_element(By.NAME, "gender"))
     gender.select_by_visible_text("Male")
 
-    # Scroll to the bottom of the page to avoid virtual keyboard covering the button
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(1)  # wait for page to scroll
+    time.sleep(1)
 
     # Click the submit button using ActionChains
     submit_button = driver.find_element(By.NAME, "submitRegister")
