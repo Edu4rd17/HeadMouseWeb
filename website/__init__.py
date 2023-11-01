@@ -15,6 +15,7 @@ LOCALHOST_PASS = os.getenv('LOCALHOST_PASS')
 LOCALHOST_USER = os.getenv('LOCALHOST_USER')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+
 def create_app():
     app = Flask(__name__)
     CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5000"}})
@@ -46,6 +47,7 @@ def create_app():
         return User.query.get(int(id))
 
     return app
+
 
 def create_database(app):
     if not path.exists('website/' + DB_NAME):

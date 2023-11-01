@@ -9,6 +9,8 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # this is the user model
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -45,4 +47,3 @@ class User(db.Model, UserMixin):
             return None
         # if it succeeds, return the user with the id
         return User.query.get(user_id)
-
